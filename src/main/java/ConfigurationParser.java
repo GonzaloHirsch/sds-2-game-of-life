@@ -19,7 +19,7 @@ public class ConfigurationParser {
      * @param staticFileName  File path for the static file
      * @param dynamicFileName File path for the dynamic file
      */
-    public static void ParseParticles(String staticFileName, String dynamicFileName) throws FileNotFoundException {
+    public static void ParseConfiguration(String staticFileName, String dynamicFileName) throws FileNotFoundException {
         ParseStaticData(staticFileName);
         ParseDynamicData(dynamicFileName);
     }

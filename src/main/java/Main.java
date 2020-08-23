@@ -13,9 +13,18 @@ public class Main {
         // Parsing the options
         OptionsParser.ParseOptions(args);
 
-        // GENERAR BOARD
+        try {
+            // Parsing the initial configuration
+            ConfigurationParser.ParseConfiguration(OptionsParser.staticFile, OptionsParser.dynamicFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            System.exit(1);
+        }
 
-        GameOfLife gol = new GameOfLife3D(null, 1);
+        // Generate GameOfLife board and rule sets to follow
+        List<char[][]> board = ConfigurationParser.board;
+        RuleSet ruleSet = OptionsParser.ruleSet;
+        GameOfLife gol = ConfigurationParser.is2D ? new GameOfLife2D(board, ruleSet) : new GameOfLife3D(board, ruleSet);
 
         int totalSteps = 100;
         List<int[]> pointsToWrite;
@@ -34,6 +43,7 @@ public class Main {
             // StringBuilder to minimize file writes
             StringBuilder sb = new StringBuilder();
 
+            // FIXME creo que hay una mejor manera que no usa stringBuilder
             // Creating the output for the file
             cells.forEach(cell -> {
                 if (cell.length == 3){
