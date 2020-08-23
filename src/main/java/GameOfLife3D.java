@@ -40,6 +40,7 @@ public class GameOfLife3D implements GameOfLife {
     private final int yLim;
     private final int zLim;
     private final Rules rule;
+    private double maxDistance = 0;
 
     public GameOfLife3D(List<char[][]> layers, int ruleset) {
         // Setting the board limits
@@ -49,7 +50,7 @@ public class GameOfLife3D implements GameOfLife {
 
         // Setting the rules to be used
         this.rule = Rules.fromValue(ruleset);
-        if (this.rule == null){
+        if (this.rule == null) {
             throw new RuntimeException("Invalid ruleset number");
         }
 
@@ -63,8 +64,12 @@ public class GameOfLife3D implements GameOfLife {
     public List<int[]> simulateStep() {
         // List for active cells
         List<int[]> activeCells = new ArrayList<>();
+
         // Variable for the live neighbours
         int liveNeighbours, newState;
+
+        // Varaible for the distance
+        double distanceToCenter;
 
         for (int z = 0; z < this.zLim; z++) {
             for (int x = 0; x < this.xLim; x++) {
@@ -75,9 +80,14 @@ public class GameOfLife3D implements GameOfLife {
                     // Calculating the new state
                     newState = RULES.get(this.rule).test(this.board[z][x][y], liveNeighbours) ? 1 : 0;
 
-                    // If the cell is active, add it to the list
+                    // If the cell is active, add it to the list and calculate the distance to the center
                     if (newState == 1) {
+                        // Adding to the list
                         activeCells.add(new int[]{x, y, z});
+
+                        // Calculating the distance and checking if greater than max
+                        distanceToCenter = this.getDistanceToCenter(x, y, z);
+                        this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
                     }
 
                     // Setting the new state
@@ -87,6 +97,22 @@ public class GameOfLife3D implements GameOfLife {
         }
 
         return activeCells;
+    }
+
+    public double getMaxDistance() {
+        return maxDistance;
+    }
+
+    /**
+     * Calculates the distance to the center of the space
+     *
+     * @param x X position for the cell
+     * @param y Y position for the cell
+     * @param z Z position for the cell
+     * @return The distance to the center
+     */
+    private double getDistanceToCenter(final int x, final int y, final int z) {
+        return Math.sqrt(Math.pow(x - this.xLim / 2.0, 2) + Math.pow(y - this.yLim / 2.0, 2) + Math.pow(z - this.zLim / 2.0, 2));
     }
 
     /**
