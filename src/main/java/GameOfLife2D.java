@@ -1,7 +1,4 @@
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiPredicate;
 
 public class GameOfLife2D implements GameOfLife {
@@ -48,7 +45,53 @@ public class GameOfLife2D implements GameOfLife {
 
     @Override
     public List<int[]> simulateStep() {
-        return null;
+        // List for active cells
+        List<int[]> activeCells = new ArrayList<>();
+
+        // Variable for the live neighbours
+        int liveNeighbours, newState;
+
+        // Varaible for the distance
+        double distanceToCenter;
+
+        for (int x = 0; x < this.xLim; x++) {
+            for (int y = 0; y < this.yLim; y++) {
+                // Calculating the amount of live neighbours
+                liveNeighbours = this.countLiveNeighbours(x, y);
+
+                // Calculating the new state
+                newState = RULES.get(this.rule).test(this.board[x][y], liveNeighbours) ? 1 : 0;
+
+                // If the cell is active, add it to the list and calculate the distance to the center
+                if (newState == 1) {
+                    // Adding to the list
+                    activeCells.add(new int[]{x, y});
+
+                    // Calculating the distance and checking if greater than max
+                    distanceToCenter = this.getDistanceToCenter(x, y);
+                    this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                }
+
+                // Setting the new state
+                this.board[x][y] = (char) newState;
+            }
+        }
+        return activeCells;
+    }
+
+    public double getMaxDistance() {
+        return maxDistance;
+    }
+
+    /**
+     * Calculates the distance to the center of the space
+     *
+     * @param x X position for the cell
+     * @param y Y position for the cell
+     * @return The distance to the center
+     */
+    private double getDistanceToCenter(final int x, final int y) {
+        return Math.sqrt(Math.pow(y - this.yLim / 2.0, 2) + Math.pow(x - this.xLim / 2.0, 2));
     }
 
     /**

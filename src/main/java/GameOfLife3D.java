@@ -42,17 +42,14 @@ public class GameOfLife3D implements GameOfLife {
     private final RuleSet rule;
     private double maxDistance = 0;
 
-    public GameOfLife3D(List<char[][]> layers, int ruleset) {
+    public GameOfLife3D(List<char[][]> layers, RuleSet ruleId) {
         // Setting the board limits
         this.zLim = layers.size();
         this.xLim = layers.get(0).length;
         this.yLim = layers.get(0)[0].length;
 
         // Setting the rules to be used
-        this.rule = RuleSet.fromId(ruleset);
-        if (this.rule == null) {
-            throw new RuntimeException("Invalid ruleset number");
-        }
+        this.rule = ruleId;
 
         // Setting the board
         this.board = new char[this.zLim][this.xLim][this.yLim];
