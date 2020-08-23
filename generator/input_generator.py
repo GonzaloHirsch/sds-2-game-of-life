@@ -1,7 +1,7 @@
 from numpy import random
 import math
 
-# Name of the configuration file with the inner condiguration
+# Name of the configuration file with the inner configuration
 INPUT_CONFIGURATION_FILE = "./generator/input_configuration.txt"
 
 # Generates the static file configuration given:
@@ -38,6 +38,9 @@ def generate_dynamic_file(filename, area_length):
 
     # We provide only the dynamic configuration at time 0
     f.write('0\n')
+
+    # Adding the amount of live points in order to be able to parse it
+    f.write('{}\n'.format(len(points)))
 
     # Adding the randomly generated
     for p in points:
