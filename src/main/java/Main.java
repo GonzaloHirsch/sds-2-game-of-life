@@ -7,7 +7,7 @@ public class Main {
 
         // GENERAR BOARD
 
-        GameOfLife gol = new GameOfLife3D(null);
+        GameOfLife gol = new GameOfLife3D(null, 1);
 
         int totalSteps = 100;
         List<int[]> pointsToWrite;
