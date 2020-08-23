@@ -70,7 +70,6 @@ def parse_dynamic_points():
         elif len(line_data) == 2:
             data[current_iteration].append([int(line_data[0]), int(line_data[1])])
 
-    print(data)
     return data
 
 # main() function
