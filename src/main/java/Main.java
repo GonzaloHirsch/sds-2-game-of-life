@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -9,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         // Parsing the options
         OptionsParser.ParseOptions(args);
 
@@ -26,34 +23,35 @@ public class Main {
         RuleSet ruleSet = OptionsParser.ruleSet;
         GameOfLife gol = ConfigurationParser.is2D ? new GameOfLife2D(board, ruleSet) : new GameOfLife3D(board, ruleSet);
 
-        int totalSteps = 100;
         List<int[]> pointsToWrite;
 
-        for (int i = 1; i < totalSteps; i++){
+        for (int i = 1; i < OptionsParser.timeInterval; i++) {
             // Simulating the step
             pointsToWrite = gol.simulateStep();
 
             // Writing results to file
-            GenerateOutputFile(pointsToWrite);
+            GenerateOutputFile(pointsToWrite, i);
         }
     }
 
-    private static void GenerateOutputFile(List<int[]> cells) {
+    private static void GenerateOutputFile(List<int[]> cells, int iteration) {
         try {
-            // StringBuilder to minimize file writes
-            StringBuilder sb = new StringBuilder();
+            BufferedWriter bf = new BufferedWriter(new FileWriter(OptionsParser.dynamicFile, true));
+            bf.append(String.format("%d\n", iteration));
 
             // FIXME creo que hay una mejor manera que no usa stringBuilder
             // Creating the output for the file
             cells.forEach(cell -> {
-                if (cell.length == 3){
-                    sb.append(String.format("%d %d %d\n", cell[0], cell[1], cell[2]));
-                } else {
-                    sb.append(String.format("%d %d\n", cell[0], cell[1]));
+                try {
+                    if (cell.length == 3) {
+                        bf.append(String.format("%d %d %d\n", cell[0], cell[1], cell[2]));
+                    } else {
+                        bf.append(String.format("%d %d\n", cell[0], cell[1]));
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error writing to the output file");
                 }
             });
-
-            Files.write(Paths.get(OptionsParser.dynamicFile), sb.toString().getBytes(), StandardOpenOption.APPEND);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (IOException e) {

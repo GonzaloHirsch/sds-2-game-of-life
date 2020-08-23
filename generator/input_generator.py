@@ -39,9 +39,6 @@ def generate_dynamic_file(filename, area_length):
     # We provide only the dynamic configuration at time 0
     f.write('0\n')
 
-    # Adding the amount of live points in order to be able to parse it
-    f.write('{}\n'.format(len(points)))
-
     # Adding the randomly generated
     for p in points:
         if len(p) == 3:

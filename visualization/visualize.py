@@ -94,39 +94,29 @@ def parse_dynamic_points():
 
     # Parsing the static file to get the the dimensions and type of dimensions
     df = open(DYNAMIC_FILE, "r")
-    current_processed, expected_processed, iteration = 0, 0, -1
+    iteration = -1
     processed_points = []
-    is_first_iteration, has_iter, has_expected = True, False, False
     for line in df:
-        if current_processed == expected_processed:
-            if not has_iter:
-                if iteration >= 0:
-                    if len(processed_points) > 0:
-                        colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
-                        print(colors)
-                        positions = np.c_[processed_points]
-                        pc = plotCubeAt(positions, colors=colors,edgecolor="k")
-                        data[iteration] = pc
-                    else:
-                        data[iteration] = []
-                iteration = int(line.rstrip("\n"))
-                has_iter = True
-                processed_points = []
-            elif not has_expected:
-                has_expected = True
-                current_processed = 0
-                expected_processed = int(line.rstrip("\n"))
+        if len(line.rstrip("\n").split(" ")) == 1:
+            if iteration >= 0:
+                if len(processed_points) > 0:
+                    colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
+                    print(colors)
+                    positions = np.c_[processed_points]
+                    pc = plotCubeAt(positions, colors=colors,edgecolor="k")
+                    data[iteration] = pc
+                else:
+                    data[iteration] = []
+            iteration = int(line.rstrip("\n"))
+            processed_points = []
         else:
-            has_iter, has_expected = False, False
             point = [int(x) for x in line.rstrip("\n").split(" ")]
             processed_points.append(point)
-            current_processed += 1
 
     # Add the last of the processed set
     if len(processed_points) > 0:
         colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
         positions = np.c_[processed_points]
-        print(colors)
         pc = plotCubeAt(positions, colors=colors,edgecolor="k")
         data[iteration] = pc
 
