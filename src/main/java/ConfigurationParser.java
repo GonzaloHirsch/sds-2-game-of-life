@@ -10,8 +10,8 @@ public class ConfigurationParser {
     public static boolean is2D;
     public static int xLim;
     public static int yLim;
-    public static int zLim;
-    public static List<int[]> livingCells;
+    public static int zLim = 1;
+    public static List<char[][]> board;
 
     /**
      * Parses the files given with the static and dynamic information in order to configure the initial state of GOL
@@ -47,6 +47,15 @@ public class ConfigurationParser {
         File file = new File(dynamicFileName);
         Scanner sc = new Scanner(file);
 
+        for (int z = 0; z < zLim; z++) {
+            board.add(new char[xLim][yLim]);
+            for (int x = 0; x < xLim; x++) {
+                for (int y = 0; y < yLim; y++) {
+                    board.get(z)[x][y] = 0;
+                }
+            }
+        }
+
         // Skipping the time of the file which is 0
         sc.nextInt();
 
@@ -57,13 +66,15 @@ public class ConfigurationParser {
             // Parsing the y position
             int y = sc.nextInt();
 
-            // Parsing the x velocity
-            if (is2D) {
-                livingCells.add(new int[]{x, y});
-            } else {
-                int z = sc.nextInt();
-                livingCells.add(new int[]{x, y, z});
+            // Setting the z in case it is only 2D
+            int z = 0;
+
+            // Parsing the z position if analyzing 3D
+            if (!is2D) {
+                z = sc.nextInt();
             }
+            // Setting the board cell (x, y, z) as alive
+            board.get(z)[x][y] = 1;
         }
     }
 }
