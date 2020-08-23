@@ -14,20 +14,20 @@ public class GameOfLife3D implements GameOfLife {
     /**
      * Map for all the possible rulesets to be defined
      */
-    private static final Map<Rules, BiPredicate<Character, Integer>> RULES;
+    private static final Map<RuleSet, BiPredicate<Character, Integer>> RULES;
 
     static {
-        Map<Rules, BiPredicate<Character, Integer>> tmp = new HashMap<>();
+        Map<RuleSet, BiPredicate<Character, Integer>> tmp = new HashMap<>();
 
         // Ruleset 1
         BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && (n == 2 || n == 3);
         BiPredicate<Character, Integer> deadToLive33 = (s, n) -> s == 0 && n == 3;
-        tmp.put(Rules.RULE_1, liveToLive23.or(deadToLive33));
+        tmp.put(RuleSet.DEFAULT_RULE, liveToLive23.or(deadToLive33));
 
         // Ruleset 2
         BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && (n == 4 || n == 5);
         BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 5;
-        tmp.put(Rules.RULE_2, liveToLive45.or(deadToLive55));
+        tmp.put(RuleSet.RULE_2, liveToLive45.or(deadToLive55));
 
         RULES = Collections.unmodifiableMap(tmp);
     }
@@ -39,7 +39,7 @@ public class GameOfLife3D implements GameOfLife {
     private final int xLim;
     private final int yLim;
     private final int zLim;
-    private final Rules rule;
+    private final RuleSet rule;
     private double maxDistance = 0;
 
     public GameOfLife3D(List<char[][]> layers, int ruleset) {
@@ -49,7 +49,7 @@ public class GameOfLife3D implements GameOfLife {
         this.yLim = layers.get(0)[0].length;
 
         // Setting the rules to be used
-        this.rule = Rules.fromValue(ruleset);
+        this.rule = RuleSet.fromId(ruleset);
         if (this.rule == null) {
             throw new RuntimeException("Invalid ruleset number");
         }
@@ -159,27 +159,5 @@ public class GameOfLife3D implements GameOfLife {
         liveNeighbours += this.board[(z - 1) % this.zLim][x][y];
 
         return liveNeighbours;
-    }
-
-    /**
-     * Enum for the different available rules
-     */
-    private enum Rules {
-        RULE_1(1), RULE_2(2);
-        private final int value;
-
-        Rules(int value) {
-            this.value = value;
-        }
-
-        static Rules fromValue(int value) {
-            switch (value) {
-                case 1:
-                    return RULE_1;
-                case 2:
-                    return RULE_2;
-            }
-            return null;
-        }
     }
 }
