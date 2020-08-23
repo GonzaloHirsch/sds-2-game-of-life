@@ -52,6 +52,8 @@ public class Main {
                     System.out.println("Error writing to the output file");
                 }
             });
+
+            bf.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (IOException e) {

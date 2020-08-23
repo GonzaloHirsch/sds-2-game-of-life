@@ -101,7 +101,6 @@ def parse_dynamic_points():
             if iteration >= 0:
                 if len(processed_points) > 0:
                     colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
-                    print(colors)
                     positions = np.c_[processed_points]
                     pc = plotCubeAt(positions, colors=colors,edgecolor="k")
                     data[iteration] = pc

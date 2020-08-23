@@ -128,10 +128,10 @@ public class GameOfLife3D implements GameOfLife {
         liveNeighbours += this.board[z][x][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[z][(x + 1) % this.xLim][y];
         liveNeighbours += this.board[z][ModuleUtils.possibleNegative(x - 1, this.xLim)][y];
-        liveNeighbours += this.board[z][(x + 1) % this.xLim][(y - 1) % this.yLim];
+        liveNeighbours += this.board[z][(x + 1) % this.xLim][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[z][ModuleUtils.possibleNegative(x - 1, this.xLim)][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[z][(x + 1) % this.xLim][(y + 1) % this.yLim];
-        liveNeighbours += this.board[z][(x - 1) % this.xLim][(y + 1) % this.yLim];
+        liveNeighbours += this.board[z][ModuleUtils.possibleNegative(x - 1, this.xLim)][(y + 1) % this.yLim];
 
         // Analyze top z plane
         liveNeighbours += this.board[(z + 1) % this.zLim][x][(y + 1) % this.yLim];
