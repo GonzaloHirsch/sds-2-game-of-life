@@ -125,35 +125,35 @@ public class GameOfLife3D implements GameOfLife {
 
         // Analyze current z plane
         liveNeighbours += this.board[z][x][(y + 1) % this.yLim];
-        liveNeighbours += this.board[z][x][(y - 1) % this.yLim];
+        liveNeighbours += this.board[z][x][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[z][(x + 1) % this.xLim][y];
-        liveNeighbours += this.board[z][(x - 1) % this.xLim][y];
+        liveNeighbours += this.board[z][ModuleUtils.possibleNegative(x - 1, this.xLim)][y];
         liveNeighbours += this.board[z][(x + 1) % this.xLim][(y - 1) % this.yLim];
-        liveNeighbours += this.board[z][(x - 1) % this.xLim][(y - 1) % this.yLim];
+        liveNeighbours += this.board[z][ModuleUtils.possibleNegative(x - 1, this.xLim)][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[z][(x + 1) % this.xLim][(y + 1) % this.yLim];
         liveNeighbours += this.board[z][(x - 1) % this.xLim][(y + 1) % this.yLim];
 
         // Analyze top z plane
         liveNeighbours += this.board[(z + 1) % this.zLim][x][(y + 1) % this.yLim];
-        liveNeighbours += this.board[(z + 1) % this.zLim][x][(y - 1) % this.yLim];
+        liveNeighbours += this.board[(z + 1) % this.zLim][x][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[(z + 1) % this.zLim][(x + 1) % this.xLim][y];
-        liveNeighbours += this.board[(z + 1) % this.zLim][(x - 1) % this.xLim][y];
-        liveNeighbours += this.board[(z + 1) % this.zLim][(x + 1) % this.xLim][(y - 1) % this.yLim];
-        liveNeighbours += this.board[(z + 1) % this.zLim][(x - 1) % this.xLim][(y - 1) % this.yLim];
+        liveNeighbours += this.board[(z + 1) % this.zLim][ModuleUtils.possibleNegative(x - 1, this.xLim)][y];
+        liveNeighbours += this.board[(z + 1) % this.zLim][(x + 1) % this.xLim][ModuleUtils.possibleNegative(y - 1, this.yLim)];
+        liveNeighbours += this.board[(z + 1) % this.zLim][ModuleUtils.possibleNegative(x - 1, this.xLim)][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[(z + 1) % this.zLim][(x + 1) % this.xLim][(y + 1) % this.yLim];
-        liveNeighbours += this.board[(z + 1) % this.zLim][(x - 1) % this.xLim][(y + 1) % this.yLim];
+        liveNeighbours += this.board[(z + 1) % this.zLim][ModuleUtils.possibleNegative(x - 1, this.xLim)][(y + 1) % this.yLim];
         liveNeighbours += this.board[(z + 1) % this.zLim][x][y];
 
         // Analyze bottom z plane
-        liveNeighbours += this.board[(z - 1) % this.zLim][x][(y + 1) % this.yLim];
-        liveNeighbours += this.board[(z - 1) % this.zLim][x][(y - 1) % this.yLim];
-        liveNeighbours += this.board[(z - 1) % this.zLim][(x + 1) % this.xLim][y];
-        liveNeighbours += this.board[(z - 1) % this.zLim][(x - 1) % this.xLim][y];
-        liveNeighbours += this.board[(z - 1) % this.zLim][(x + 1) % this.xLim][(y - 1) % this.yLim];
-        liveNeighbours += this.board[(z - 1) % this.zLim][(x - 1) % this.xLim][(y - 1) % this.yLim];
-        liveNeighbours += this.board[(z - 1) % this.zLim][(x + 1) % this.xLim][(y + 1) % this.yLim];
-        liveNeighbours += this.board[(z - 1) % this.zLim][(x - 1) % this.xLim][(y + 1) % this.yLim];
-        liveNeighbours += this.board[(z - 1) % this.zLim][x][y];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][x][(y + 1) % this.yLim];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][x][ModuleUtils.possibleNegative(y - 1, this.yLim)];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][(x + 1) % this.xLim][y];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][ModuleUtils.possibleNegative(x - 1, this.xLim)][y];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][(x + 1) % this.xLim][ModuleUtils.possibleNegative(y - 1, this.yLim)];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][ModuleUtils.possibleNegative(x - 1, this.xLim)][ModuleUtils.possibleNegative(y - 1, this.yLim)];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][(x + 1) % this.xLim][(y + 1) % this.yLim];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][ModuleUtils.possibleNegative(x - 1, this.xLim)][(y + 1) % this.yLim];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(z - 1, this.zLim)][x][y];
 
         return liveNeighbours;
     }

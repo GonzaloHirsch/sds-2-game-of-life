@@ -1,7 +1,6 @@
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Particle;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,7 +10,7 @@ public class ConfigurationParser {
     public static int xLim;
     public static int yLim;
     public static int zLim = 1;
-    public static List<char[][]> board;
+    public static List<char[][]> board = new ArrayList<>();
 
     /**
      * Parses the files given with the static and dynamic information in order to configure the initial state of GOL

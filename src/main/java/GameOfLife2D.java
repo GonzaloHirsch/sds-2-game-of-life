@@ -106,13 +106,13 @@ public class GameOfLife2D implements GameOfLife {
 
         // Analyze current z plane
         liveNeighbours += this.board[x][(y + 1) % this.yLim];
-        liveNeighbours += this.board[x][(y - 1) % this.yLim];
+        liveNeighbours += this.board[x][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[(x + 1) % this.xLim][y];
-        liveNeighbours += this.board[(x - 1) % this.xLim][y];
-        liveNeighbours += this.board[(x + 1) % this.xLim][(y - 1) % this.yLim];
-        liveNeighbours += this.board[(x - 1) % this.xLim][(y - 1) % this.yLim];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(x - 1, this.xLim)][y];
+        liveNeighbours += this.board[(x + 1) % this.xLim][ModuleUtils.possibleNegative(y - 1, this.yLim)];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(x - 1, this.xLim) % this.xLim][ModuleUtils.possibleNegative(y - 1, this.yLim)];
         liveNeighbours += this.board[(x + 1) % this.xLim][(y + 1) % this.yLim];
-        liveNeighbours += this.board[(x - 1) % this.xLim][(y + 1) % this.yLim];
+        liveNeighbours += this.board[ModuleUtils.possibleNegative(x - 1, this.xLim)][(y + 1) % this.yLim];
 
         return liveNeighbours;
     }
