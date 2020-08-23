@@ -1,17 +1,34 @@
-input_configuration.txt -> matriz inicial de 10x10
+# Simulación de Sistemas - TP2
 
-input_generator.py -> genera el dynamic 0 con los puntos prendidos y pide el tamaño del board real y genera el estatico que dice si es
+## Formato de Archivos
 
-main.java -> recibe el static y dynamic 0
+### input_configuration.txt
+Contains the initial configuration for the cells, the format to be used is:
+```
+NUM_OF_DIMENSIONS
 
-1 0 1 0 0 0 0 1 0 1
-1 0 1 0 0 0 0 1 0 1
-1 0 1 0 0 1 0 1 0 1
-1 0 1 0 1 0 1 1 0 1
-1 0 1 0 0 1 0 1 0 1
-1 0 1 0 0 0 0 1 0 1
-1 0 1 0 0 0 0 1 0 1
-1 0 1 0 0 0 0 1 0 1
-1 0 1 0 0 0 0 1 0 1
-1 0 1 0 0 0 0 1 0 1
+MATRIX_OF_1_AND_0
+```
+For example a 2-dimensional arange of a 3x3 inner matrix would be:
+```
+1
+1 0 1
+0 1 0
+1 0 1
+```
+For example a 3-dimensional arange of a 3x3x3 inner matrix would be:
+```
+3
+1 0 1
+0 1 0
+1 0 1
+1 0 1
+0 1 0
+1 0 1
+1 0 1
+0 1 0
+1 0 1
+```
+**NOTE:** We assume that the inner configuration will always be a cube/square
+
 
