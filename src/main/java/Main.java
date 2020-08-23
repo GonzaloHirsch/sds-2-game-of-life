@@ -26,22 +26,23 @@ public class Main {
         RuleSet ruleSet = OptionsParser.ruleSet;
         GameOfLife gol = ConfigurationParser.is2D ? new GameOfLife2D(board, ruleSet) : new GameOfLife3D(board, ruleSet);
 
-        int totalSteps = 100;
         List<int[]> pointsToWrite;
 
-        for (int i = 1; i < totalSteps; i++){
+        for (int i = 1; i < OptionsParser.timeInterval; i++){
             // Simulating the step
             pointsToWrite = gol.simulateStep();
 
             // Writing results to file
-            GenerateOutputFile(pointsToWrite);
+            GenerateOutputFile(pointsToWrite, i);
         }
     }
 
-    private static void GenerateOutputFile(List<int[]> cells) {
+    private static void GenerateOutputFile(List<int[]> cells, int iteration) {
         try {
             // StringBuilder to minimize file writes
             StringBuilder sb = new StringBuilder();
+
+            sb.append(iteration).append("\n");
 
             // FIXME creo que hay una mejor manera que no usa stringBuilder
             // Creating the output for the file
