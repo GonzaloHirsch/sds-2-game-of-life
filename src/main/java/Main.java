@@ -30,6 +30,8 @@ public class Main {
         List<int[]> pointsToWrite;
         // Used to calculate the slope (velocity) of the function maxDistance(t)
         SimpleRegression regression = new SimpleRegression();
+        // Getting the initial maximum distance into the regression
+        regression.addData(0, gol.calculateMaxDistance());
 
         for (int i = 1; i < OptionsParser.timeInterval; i++) {
             // Simulating the step

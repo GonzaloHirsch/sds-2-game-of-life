@@ -76,6 +76,9 @@ public class GameOfLife3D implements GameOfLife {
         // Varaible for the distance
         double distanceToCenter;
 
+        // Resetting the distance variable
+        maxDistance = 0;
+
         for (int z = 0; z < this.zLim; z++) {
             for (int x = 0; x < this.xLim; x++) {
                 for (int y = 0; y < this.yLim; y++) {
@@ -115,6 +118,23 @@ public class GameOfLife3D implements GameOfLife {
     }
 
     public double getMaxDistance() {
+        return maxDistance;
+    }
+
+    @Override
+    public double calculateMaxDistance() {
+        double distanceToCenter;
+        maxDistance = 0;
+
+        for (int x = 0; x < this.xLim; x++) {
+            for (int y = 0; y < this.yLim; y++) {
+                for (int z = 0; z < this.zLim; z++) {
+                    // Calculating the distance and checking if greater than max
+                    distanceToCenter = this.getDistanceToCenter(x, y, z);
+                    this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                }
+            }
+        }
         return maxDistance;
     }
 

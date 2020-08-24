@@ -48,6 +48,7 @@ public class GameOfLife2D implements GameOfLife {
         // List for active cells
         List<int[]> activeCells = new ArrayList<>();
         List<int[]> deadCells = new ArrayList<>();
+        maxDistance = 0;
 
         // Variable for the live neighbours
         int liveNeighbours, newState;
@@ -89,6 +90,21 @@ public class GameOfLife2D implements GameOfLife {
     }
 
     public double getMaxDistance() {
+        return maxDistance;
+    }
+
+    @Override
+    public double calculateMaxDistance() {
+        double distanceToCenter;
+        maxDistance = 0;
+
+        for (int x = 0; x < this.xLim; x++) {
+            for (int y = 0; y < this.yLim; y++) {
+                // Calculating the distance and checking if greater than max
+                distanceToCenter = this.getDistanceToCenter(x, y);
+                this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+            }
+        }
         return maxDistance;
     }
 
