@@ -40,15 +40,7 @@ public class GameOfLife2D implements GameOfLife {
         this.rule = ruleId;
 
         // Setting the board
-        // TODO check if aux is necessary once it is working
-        char[][] aux = layers.get(0);
-        this.board = new char[xLim][yLim];
-
-        for (int x = 0; x < xLim; x++) {
-            for (int y = 0; y < yLim; y++) {
-                this.board[x][y] = aux[x][y];
-            }
-        }
+        this.board = layers.get(0);
     }
 
     @Override
