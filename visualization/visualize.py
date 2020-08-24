@@ -3,7 +3,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from matplotlib.animation import FuncAnimation
+import matplotlib.animation as animation
 
 # Name of the dynamic and static files to be used
 STATIC_FILE = "./static.txt"
@@ -76,17 +76,15 @@ def prepareAxis(ax):
     ax.set_zticks([])
 
 def init_3d():
-    #pc = plotCubeAt(positions, colors=colors,edgecolor="k")
-    ax.add_collection3d(data[0])
+    if data[0]["len"] > 0:
+        ax.add_collection3d(data[0]["data"])
     return ax,
 
 def update_3d(frame):
-    #c1[0] = (c1[0] + 1) % 50
-    #positions = np.c_[[c1, c2, c3]]
-    #pc = plotCubeAt(positions, colors=colors,edgecolor="k")
     ax.cla()
     prepareAxis(ax)
-    ax.add_collection3d(data[frame])
+    if data[frame]["len"] > 0:
+        ax.add_collection3d(data[frame]["data"])
     return ax,
 
 def parse_dynamic_points():
@@ -100,12 +98,17 @@ def parse_dynamic_points():
         if len(line.rstrip("\n").split(" ")) == 1:
             if iteration >= 0:
                 if len(processed_points) > 0:
+                    sub_data = {}
                     colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
                     positions = np.c_[processed_points]
                     pc = plotCubeAt(positions, colors=colors,edgecolor="k")
-                    data[iteration] = pc
+                    sub_data["data"] = pc
+                    sub_data["len"] = len(processed_points)
+                    data[iteration] = sub_data
                 else:
-                    data[iteration] = []
+                    sub_data["data"] = []
+                    sub_data["len"] = len(processed_points)
+                    data[iteration] = sub_data
             iteration = int(line.rstrip("\n"))
             processed_points = []
         else:
@@ -114,10 +117,13 @@ def parse_dynamic_points():
 
     # Add the last of the processed set
     if len(processed_points) > 0:
+        sub_data = {}
         colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
         positions = np.c_[processed_points]
         pc = plotCubeAt(positions, colors=colors,edgecolor="k")
-        data[iteration] = pc
+        sub_data["data"] = pc
+        sub_data["len"] = len(processed_points)
+        data[iteration] = sub_data
 
     return data
 
@@ -127,12 +133,13 @@ if DIMS == 3:
     data = parse_dynamic_points()
     x,y,z = np.indices((X_LIM, Y_LIM, Z_LIM))-.5
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(7,7))
     ax = fig.gca(projection='3d')
     ax.set_aspect('auto')
     prepareAxis(ax)
 
-    ani = FuncAnimation(fig, update_3d, frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
-                        init_func=init_3d, blit=True)
+    ani = animation.FuncAnimation(fig, update_3d, frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
+                        init_func=init_3d)
 
+    ani.save("render.avi", fps=5, extra_args=['-vcodec', 'libx264'])
     plt.show()

@@ -29,6 +29,11 @@ public class GameOfLife3D implements GameOfLife {
         BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 5;
         tmp.put(RuleSet.RULE_2, liveToLive45.or(deadToLive55));
 
+        // Ruleset 3
+        BiPredicate<Character, Integer> liveToLive34 = (s, n) -> s == 1 && (n == 3 || n == 4);
+        BiPredicate<Character, Integer> deadToLive44 = (s, n) -> s == 0 && n == 4;
+        tmp.put(RuleSet.RULE_3, liveToLive34.or(deadToLive44));
+
         RULES = Collections.unmodifiableMap(tmp);
     }
 
@@ -62,6 +67,9 @@ public class GameOfLife3D implements GameOfLife {
         // List for active cells
         List<int[]> activeCells = new ArrayList<>();
 
+        // List for the cells that die
+        List<int[]> deadCells = new ArrayList<>();
+
         // Variable for the live neighbours
         int liveNeighbours, newState;
 
@@ -85,13 +93,23 @@ public class GameOfLife3D implements GameOfLife {
                         // Calculating the distance and checking if greater than max
                         distanceToCenter = this.getDistanceToCenter(x, y, z);
                         this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                    } else if (this.board[z][x][y] == 1){
+                        // This are the cells that die
+                        deadCells.add(new int[]{x, y, z});
                     }
-
-                    // Setting the new state
-                    this.board[z][x][y] = (char) newState;
                 }
             }
         }
+
+        // Setting the new dead cells
+        deadCells.forEach(cell -> {
+            this.board[cell[2]][cell[0]][cell[1]] = 0;
+        });
+
+        // Setting the new active cells
+        activeCells.forEach(cell -> {
+            this.board[cell[2]][cell[0]][cell[1]] = 1;
+        });
 
         return activeCells;
     }
