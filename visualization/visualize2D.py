@@ -1,17 +1,17 @@
 # Python code to implement Conway's Game Of Life
 import argparse
+from matplotlib import cm
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+import matplotlib.colors as mcolors
+import math
 
 # Name of the dynamic and static files to be used
 STATIC_FILE = "./static.txt"
 DYNAMIC_FILE = "./dynamic.txt"
 
-# Dimensions for the plot
-X_LIM, Y_LIM, Z_LIM = 100, 100, 100
-DIMS = 2
+DEAD = 0
 
 # Parsing the static file to get the the dimensions and type of dimensions
 sf = open(STATIC_FILE, "r")
@@ -27,20 +27,10 @@ for line in sf:
             Z_LIM = dimensions[2]
     index += 1
 
-ALIVE = 1
-DEAD = 0
-
-def color_function(dist, max_distance):
-    return (1/max_distance) * dist
-
-def color_for_cell(x, y):
+def distance_to_origin(x, y):
     x_center, y_center = X_LIM / 2, Y_LIM / 2
-    distance = math.sqrt((x - x_center)**2 + (y - y_center)**2)
-    color_r = color_function(distance, x_center)
-    if color_r > 1:
-        color_r = 0.999
-    return [color_r, 20/255, 69/255]
-
+    distance = int(math.sqrt((x - x_center)**2 + (y - y_center)**2))
+    return distance + 4
 
 def empty_grid(N, M):
 
@@ -49,7 +39,7 @@ def empty_grid(N, M):
 
 def add_living_cells(cells, grid):
     for cell in cells:
-        	grid[cell[0], cell[1]] = ALIVE
+        	grid[cell[0], cell[1]] = distance_to_origin(cell[0], cell[1])
 
 def update(frames, img, grid, data, N, M):
 
@@ -108,9 +98,23 @@ def main():
     grid = empty_grid(X_LIM, Y_LIM)
     add_living_cells(data[0], grid)
 
+    # Getting the maximum distance of a cell from origin
+    # to know how many colors I need
+    max_distance = distance_to_origin(X_LIM, Y_LIM)
+
+    # Getting a named colormap which returns a ListedColormap object.
+    # The second argument gives the size of the list of colors used to define the colormap
+    oranges = cm.get_cmap('Oranges', max_distance)
+    colors = oranges(np.linspace(0, 1, max_distance))
+
+    # Creating the color map and setting asociated boundaries with the colors
+    cmap = mcolors.ListedColormap(colors)
+    bounds=[x for x in range(0, max_distance)]
+    norm = mcolors.BoundaryNorm(bounds, cmap.N)
+
     # set up animation
     fig, ax = plt.subplots()
-    img = ax.imshow(grid, interpolation='nearest', cmap='Greens')
+    img = ax.imshow(grid, interpolation='nearest', cmap=cmap, norm=norm)
     ani = animation.FuncAnimation(fig, update, fargs=(img, grid, data, X_LIM, Y_LIM),
                                   frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
                                   interval=updateInterval,
@@ -118,7 +122,7 @@ def main():
 
     # set output file
     if args.movfile:
-        ani.save(args.movfile, fps=5, extra_args=['-vcodec', 'libx264'])
+        ani.save('animations/2d/' + args.movfile, fps=8, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 
