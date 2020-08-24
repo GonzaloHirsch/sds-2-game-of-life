@@ -41,7 +41,7 @@ for t in time:
     regression.append(m*t + b)
 
 # Plotting the regression line
-label = 'Initial living cells = ' + str(percentage) + '%'
+label = 'Initial living cells = ' + percentage + '%'
 plt.plot(time, regression, label=label)
 
 #Labelling the lines

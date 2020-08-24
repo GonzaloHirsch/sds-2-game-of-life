@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ConfigurationParser {
     public static boolean is2D;
-    public static int livingPercentage;
+    public static double livingPercentage;
     public static int xLim;
     public static int yLim;
     public static int zLim = 1;
@@ -41,7 +41,7 @@ public class ConfigurationParser {
         if (!is2D) {
             zLim = sc.nextInt();
         }
-        livingPercentage = sc.nextInt();
+        livingPercentage = sc.nextDouble();
     }
 
     private static void ParseDynamicData(String dynamicFileName) throws FileNotFoundException {

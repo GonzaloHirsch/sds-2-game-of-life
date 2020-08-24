@@ -19,7 +19,7 @@ index = 0
 for line in sf:
     if index == 0:
         DIMS = int(line.rstrip("\n"))
-    else if index == 1:
+    elif index == 1:
         dimensions = [int(x) for x in line.rstrip("\n").split(" ")]
         X_LIM = dimensions[0]
         Y_LIM = dimensions[1]
@@ -142,4 +142,4 @@ if DIMS == 3:
                         init_func=init_3d)
 
     ani.save("render.avi", fps=5, extra_args=['-vcodec', 'libx264'])
-    plt.show()
+    #plt.show()
