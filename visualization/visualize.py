@@ -117,10 +117,13 @@ def parse_dynamic_points():
 
     # Add the last of the processed set
     if len(processed_points) > 0:
+        sub_data = {}
         colors = np.c_[[color_for_cell(x[0], x[1], x[2]) for x in processed_points]]
         positions = np.c_[processed_points]
         pc = plotCubeAt(positions, colors=colors,edgecolor="k")
-        data[iteration] = pc
+        sub_data["data"] = pc
+        sub_data["len"] = len(processed_points)
+        data[iteration] = sub_data
 
     return data
 
