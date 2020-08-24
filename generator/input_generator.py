@@ -49,8 +49,8 @@ def generate_dynamic_file(filename, area_length):
 
 # Generates both the dynamic and the static file
 def generate_files(area_length, layers):
-    generate_static_file('./static.txt', area_length, layers)
-    generate_dynamic_file('./dynamic.txt', area_length)
+    generate_static_file('./parsable_files/static.txt', area_length, layers)
+    generate_dynamic_file('./parsable_files/dynamic.txt', area_length)
 
 # Given the total length of the area and an inner configuration file, generates a list of points offseted to be in the middle of the area of study
 def obtain_points_from_matrix(area_length):

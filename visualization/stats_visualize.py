@@ -13,7 +13,7 @@ def calculateVelocitySD(velocities, mean):
         return 0
         
 
-STAT_FILE = "./statistics.txt"
+STAT_FILE = "./parsable_files/statistics.txt"
 
 sf = open(STAT_FILE, "r")
 
@@ -45,7 +45,7 @@ plt.xlabel('Initial Living Cells (%)')
 # Set the y axis label
 plt.ylabel('Average expansion velocity (displacement/frames)')
 # Set a title of the current graph.
-plt.title('Velocity of system\'s expansion from origin\nbased on initial percentage of living cells')
+plt.title('Velocity of system\'s expansion from center\nbased on initial percentage of living cells')
 
 # Ordering the data based on the percentages
 percentages, velocities, stds = zip(*sorted(zip(percentages, velocities, stds)))
@@ -55,4 +55,4 @@ plt.plot(percentages, velocities)
 plt.errorbar(percentages, velocities, yerr=stds, fmt='o', color='black',
                      ecolor='lightgray', elinewidth=3, capsize=0);
 
-plt.savefig('stats.png')
+plt.savefig('images/stats.png')

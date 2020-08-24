@@ -6,8 +6,8 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import matplotlib.animation as animation
 
 # Name of the dynamic and static files to be used
-STATIC_FILE = "./static.txt"
-DYNAMIC_FILE = "./dynamic.txt"
+STATIC_FILE = "./parsable_files/static.txt"
+DYNAMIC_FILE = "./parsable_files/dynamic.txt"
 
 # Dimensions for the plot
 X_LIM, Y_LIM, Z_LIM = 100, 100, 100
@@ -19,7 +19,7 @@ index = 0
 for line in sf:
     if index == 0:
         DIMS = int(line.rstrip("\n"))
-    else:
+    else if index == 1:
         dimensions = [int(x) for x in line.rstrip("\n").split(" ")]
         X_LIM = dimensions[0]
         Y_LIM = dimensions[1]

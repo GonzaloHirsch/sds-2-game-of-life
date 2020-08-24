@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class Main {
-    private final static String STAT_FILE = "./statistics.txt";
+    private final static String STAT_FILE = "./parsable_files/statistics.txt";
 
     public static void main(String[] args) {
         // Parsing the options

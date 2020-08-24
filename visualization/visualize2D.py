@@ -8,8 +8,8 @@ import matplotlib.colors as mcolors
 import math
 
 # Name of the dynamic and static files to be used
-STATIC_FILE = "./static.txt"
-DYNAMIC_FILE = "./dynamic.txt"
+STATIC_FILE = "./parsable_files/static.txt"
+DYNAMIC_FILE = "./parsable_files/dynamic.txt"
 
 DEAD = 0
 
@@ -19,12 +19,13 @@ index = 0
 for line in sf:
     if index == 0:
         DIMS = int(line.rstrip("\n"))
-    else:
+    elif index == 1:
         dimensions = [int(x) for x in line.rstrip("\n").split(" ")]
         X_LIM = dimensions[0]
         Y_LIM = dimensions[1]
         if DIMS == 3:
             Z_LIM = dimensions[2]
+
     index += 1
 
 def distance_to_origin(x, y):
