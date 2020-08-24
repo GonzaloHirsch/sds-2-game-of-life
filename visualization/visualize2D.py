@@ -105,8 +105,8 @@ def main():
 
     # Getting a named colormap which returns a ListedColormap object.
     # The second argument gives the size of the list of colors used to define the colormap
-    oranges = cm.get_cmap('Oranges', max_distance)
-    colors = oranges(np.linspace(0, 1, max_distance))
+    inferno = cm.get_cmap('inferno', max_distance)
+    colors = inferno(np.linspace(0, 1, max_distance))
 
     # Creating the color map and setting asociated boundaries with the colors
     cmap = mcolors.ListedColormap(colors)
