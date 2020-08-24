@@ -27,8 +27,20 @@ for line in sf:
             Z_LIM = dimensions[2]
     index += 1
 
-ALIVE = 255
+ALIVE = 1
 DEAD = 0
+
+def color_function(dist, max_distance):
+    return (1/max_distance) * dist
+
+def color_for_cell(x, y):
+    x_center, y_center = X_LIM / 2, Y_LIM / 2
+    distance = math.sqrt((x - x_center)**2 + (y - y_center)**2)
+    color_r = color_function(distance, x_center)
+    if color_r > 1:
+        color_r = 0.999
+    return [color_r, 20/255, 69/255]
+
 
 def empty_grid(N, M):
 
@@ -85,8 +97,6 @@ def main():
     # add arguments
     parser.add_argument('--mov-file', dest='movfile', required=False)
     parser.add_argument('--interval', dest='interval', required=False)
-    parser.add_argument('--glider', action='store_true', required=False)
-    parser.add_argument('--gosper', action='store_true', required=False)
     args = parser.parse_args()
 
     # set animation update interval
@@ -94,22 +104,21 @@ def main():
     if args.interval:
         updateInterval = int(args.interval)
 
-    # declare grid
+    # declare grid and adding the first state
     grid = empty_grid(X_LIM, Y_LIM)
     add_living_cells(data[0], grid)
 
     # set up animation
     fig, ax = plt.subplots()
-    img = ax.imshow(grid, interpolation='nearest')
+    img = ax.imshow(grid, interpolation='nearest', cmap='Greens')
     ani = animation.FuncAnimation(fig, update, fargs=(img, grid, data, X_LIM, Y_LIM),
                                   frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
                                   interval=updateInterval,
                                   save_count=50)
 
-    # # of frames?
     # set output file
     if args.movfile:
-        ani.save(args.movfile, fps=30, extra_args=['-vcodec', 'libx264'])
+        ani.save(args.movfile, fps=5, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 
