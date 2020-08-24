@@ -30,9 +30,9 @@ public class GameOfLife3D implements GameOfLife {
         tmp.put(RuleSet.RULE_2, liveToLive45.or(deadToLive55));
 
         // Ruleset 3
-        BiPredicate<Character, Integer> liveToLive34 = (s, n) -> s == 1 && (n == 3 || n == 4);
-        BiPredicate<Character, Integer> deadToLive44 = (s, n) -> s == 0 && n == 4;
-        tmp.put(RuleSet.RULE_3, liveToLive34.or(deadToLive44));
+        BiPredicate<Character, Integer> liveToLive78 = (s, n) -> s == 1 && (n == 7 || n == 8);
+        BiPredicate<Character, Integer> deadToLive88 = (s, n) -> s == 0 && n == 8;
+        tmp.put(RuleSet.RULE_3, liveToLive78.or(deadToLive88));
 
         RULES = Collections.unmodifiableMap(tmp);
     }

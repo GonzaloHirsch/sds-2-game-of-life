@@ -19,7 +19,7 @@ index = 0
 for line in sf:
     if index == 0:
         DIMS = int(line.rstrip("\n"))
-    else:
+    elif index == 1:
         dimensions = [int(x) for x in line.rstrip("\n").split(" ")]
         X_LIM = dimensions[0]
         Y_LIM = dimensions[1]
