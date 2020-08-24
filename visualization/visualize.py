@@ -139,7 +139,7 @@ if DIMS == 3:
     prepareAxis(ax)
 
     ani = animation.FuncAnimation(fig, update_3d, frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
-                        init_func=init_3d)
+                        init_func=init_3d, blit=True)
 
     ani.save("render.avi", fps=5, extra_args=['-vcodec', 'libx264'])
     plt.show()
