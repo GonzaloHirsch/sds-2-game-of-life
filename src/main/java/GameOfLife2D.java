@@ -40,13 +40,22 @@ public class GameOfLife2D implements GameOfLife {
         this.rule = ruleId;
 
         // Setting the board
-        this.board = layers.get(0);
+        // TODO check if aux is necessary once it is working
+        char[][] aux = layers.get(0);
+        this.board = new char[xLim][yLim];
+
+        for (int x = 0; x < xLim; x++) {
+            for (int y = 0; y < yLim; y++) {
+                this.board[x][y] = aux[x][y];
+            }
+        }
     }
 
     @Override
     public List<int[]> simulateStep() {
         // List for active cells
         List<int[]> activeCells = new ArrayList<>();
+        List<int[]> deadCells = new ArrayList<>();
 
         // Variable for the live neighbours
         int liveNeighbours, newState;
@@ -70,11 +79,19 @@ public class GameOfLife2D implements GameOfLife {
                     // Calculating the distance and checking if greater than max
                     distanceToCenter = this.getDistanceToCenter(x, y);
                     this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
-                }
 
-                // Setting the new state
-                this.board[x][y] = (char) newState;
+                // If the old state was alive and it is now dead
+                } else if (this.board[x][y] == 1) {
+                    deadCells.add(new int[]{x, y});
+                }
             }
+        }
+        // Updating board
+        for (int[] cell : activeCells) {
+            this.board[cell[0]][cell[1]] = 1;
+        }
+        for (int[] cell : deadCells) {
+            this.board[cell[0]][cell[1]] = 0;
         }
         return activeCells;
     }

@@ -39,7 +39,6 @@ public class Main {
             BufferedWriter bf = new BufferedWriter(new FileWriter(OptionsParser.dynamicFile, true));
             bf.append(String.format("%d\n", iteration));
 
-            // FIXME creo que hay una mejor manera que no usa stringBuilder
             // Creating the output for the file
             cells.forEach(cell -> {
                 try {
