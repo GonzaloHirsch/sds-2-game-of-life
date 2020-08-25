@@ -81,8 +81,8 @@ def generate_dynamic_file(filename, points):
 
 # Generates both the dynamic and the static file
 def generate_files(area_length, dimensions, percentage, points):
-    generate_static_file('./static.txt', area_length, dimensions, percentage)
-    generate_dynamic_file('./dynamic.txt', points)
+    generate_static_file('./parsable_files/static.txt', area_length, dimensions, percentage)
+    generate_dynamic_file('./parsable_files/dynamic.txt', points)
 
 # main() function
 def main():

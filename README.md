@@ -102,3 +102,12 @@ Being inside the _visualization_ folder, run the following command to create the
 ```
 python visualize.py
 ```
+
+## Authors
+
+Florencia Petrikovich - fpetrikovich@itba.edu.ar
+Gonzalo Hirsch - ghirsch@itba.edu.ar
+
+## Sources
+
+[3D Rules](https://wpmedia.wolfram.com/uploads/sites/13/2018/02/01-3-1.pdf)
