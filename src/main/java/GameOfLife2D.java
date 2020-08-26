@@ -37,6 +37,7 @@ public class GameOfLife2D implements GameOfLife {
     private final int yLim;
     private final RuleSet rule;
     private double maxDistance = 0;
+    private int livingCellsCount = 0;
 
     public GameOfLife2D(List<char[][]> layers, RuleSet ruleId) {
         // Setting the board limits
@@ -53,7 +54,10 @@ public class GameOfLife2D implements GameOfLife {
         // List for active cells
         List<int[]> activeCells = new ArrayList<>();
         List<int[]> deadCells = new ArrayList<>();
-        maxDistance = 0;
+
+        // Resetting the variables
+        this.maxDistance = 0;
+        this.livingCellsCount = 0;
 
         // Variable for the live neighbours
         int liveNeighbours, newState;
@@ -86,12 +90,18 @@ public class GameOfLife2D implements GameOfLife {
         }
         // Updating board
         for (int[] cell : activeCells) {
+            this.livingCellsCount++;
             this.board[cell[0]][cell[1]] = 1;
         }
         for (int[] cell : deadCells) {
             this.board[cell[0]][cell[1]] = 0;
         }
         return activeCells;
+    }
+
+    @Override
+    public int getLivingCellsCount() {
+        return livingCellsCount;
     }
 
     public double getMaxDistance() {

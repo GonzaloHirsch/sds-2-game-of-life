@@ -26,4 +26,9 @@ public enum RuleSet{
     static int minRule() {
         return 1;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(ruleId);
+    }
 }

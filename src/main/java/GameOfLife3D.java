@@ -46,6 +46,7 @@ public class GameOfLife3D implements GameOfLife {
     private final int zLim;
     private final RuleSet rule;
     private double maxDistance = 0;
+    private int livingCellsCount = 0;
 
     public GameOfLife3D(List<char[][]> layers, RuleSet ruleId) {
         // Setting the board limits
@@ -76,8 +77,9 @@ public class GameOfLife3D implements GameOfLife {
         // Varaible for the distance
         double distanceToCenter;
 
-        // Resetting the distance variable
-        maxDistance = 0;
+        // Resetting the variables
+        this.maxDistance = 0;
+        this.livingCellsCount = 0;
 
         for (int z = 0; z < this.zLim; z++) {
             for (int x = 0; x < this.xLim; x++) {
@@ -106,6 +108,7 @@ public class GameOfLife3D implements GameOfLife {
 
         // Setting the new dead cells
         deadCells.forEach(cell -> {
+            this.livingCellsCount++;
             this.board[cell[2]][cell[0]][cell[1]] = 0;
         });
 
@@ -115,6 +118,11 @@ public class GameOfLife3D implements GameOfLife {
         });
 
         return activeCells;
+    }
+
+    @Override
+    public int getLivingCellsCount() {
+        return livingCellsCount;
     }
 
     public double getMaxDistance() {

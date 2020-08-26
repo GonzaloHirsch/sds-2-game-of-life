@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Main {
     private final static String STAT_FILE = "./parsable_files/statistics.txt";
+    private final static String LIVING_STATS = "Living";
+    private final static String DISPLACEMENT_STATS = "Displacement";
 
     public static void main(String[] args) {
         // Parsing the options
@@ -29,19 +31,28 @@ public class Main {
 
         List<int[]> pointsToWrite;
         // Used to calculate the slope (velocity) of the function maxDistance(t)
-        SimpleRegression regression = new SimpleRegression();
+        SimpleRegression regressionDistance = new SimpleRegression();
         // Getting the initial maximum distance into the regression
-        regression.addData(0, gol.calculateMaxDistance());
+        regressionDistance.addData(0, gol.calculateMaxDistance());
+
+        // Used to calculate the rate of change of the living cells
+        SimpleRegression regressionLiving = new SimpleRegression();
+        regressionDistance.addData(0, ConfigurationParser.livingCells);
 
         for (int i = 1; i < OptionsParser.timeInterval; i++) {
             // Simulating the step
             pointsToWrite = gol.simulateStep();
-            // Adding the points x(t) to the regression
-            regression.addData(i, gol.getMaxDistance());
+
+            // Adding the points to the regressions
+            regressionDistance.addData(i, gol.getMaxDistance());
+            regressionLiving.addData(i, gol.getLivingCellsCount());
+
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
-        AddToStatisticsFile(ConfigurationParser.livingPercentage, regression.getSlope());
+
+        AddToStatisticsFile(ConfigurationParser.is2D, DISPLACEMENT_STATS, ruleSet, ConfigurationParser.livingPercentage, regressionDistance.getSlope());
+        AddToStatisticsFile(ConfigurationParser.is2D, LIVING_STATS, ruleSet, ConfigurationParser.livingPercentage, regressionLiving.getSlope());
     }
 
     private static void GenerateOutputFile(List<int[]> cells, int iteration) {
@@ -76,9 +87,9 @@ public class Main {
      * @param livingPercentage Number between 0 and 100 that indicates the percentage of living cells in the initial configuration inside the limited space
      * @param velocity Slope of the regression created by the max distance of a living cell to the origin in function of time intervals
      */
-    private static void AddToStatisticsFile(double livingPercentage, double velocity) {
+    private static void AddToStatisticsFile(boolean is2D, String statType, RuleSet rule, double livingPercentage, double velocity) {
         try {
-            String sf = String.format("%.3f %.3f\n", livingPercentage, velocity);
+            String sf = String.format("%d %s %s %.3f %.3f\n", is2D ? 2 : 3, statType, rule.toString(), livingPercentage, velocity);
             Files.write(Paths.get(STAT_FILE), sf.getBytes(), StandardOpenOption.APPEND);
 
         } catch (FileNotFoundException e) {

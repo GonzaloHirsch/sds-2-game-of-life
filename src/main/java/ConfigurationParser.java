@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class ConfigurationParser {
     public static boolean is2D;
     public static double livingPercentage;
+    public static int livingCells = 0;
     public static int xLim;
     public static int yLim;
     public static int zLim = 1;
@@ -76,6 +77,7 @@ public class ConfigurationParser {
             }
             // Setting the board cell (x, y, z) as alive
             board.get(z)[x][y] = 1;
+            livingCells++;
         }
     }
 }
