@@ -20,18 +20,18 @@ public class GameOfLife3D implements GameOfLife {
         Map<RuleSet, BiPredicate<Character, Integer>> tmp = new HashMap<>();
 
         // Ruleset 1
-        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n >= 4 & n <= 5;
-        BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n >= 5 & n <= 5;
+        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n >= 4 && n <= 5;
+        BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n >= 5 && n <= 5;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive45.or(deadToLive55));
 
         // Ruleset 2
-        BiPredicate<Character, Integer> liveToLive1021 = (s, n) -> s == 1 && n >= 10 & n <= 21;
-        BiPredicate<Character, Integer> deadToLive1021 = (s, n) -> s == 0 && n >= 10 & n <= 21;
+        BiPredicate<Character, Integer> liveToLive1021 = (s, n) -> s == 1 && n >= 10 && n <= 21;
+        BiPredicate<Character, Integer> deadToLive1021 = (s, n) -> s == 0 && n >= 10 && n <= 21;
         tmp.put(RuleSet.RULE_2, liveToLive1021.or(deadToLive1021));
 
         // Ruleset 3
-        // BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n >= 4 & n <= 5;
-        BiPredicate<Character, Integer> deadToLive26 = (s, n) -> s == 0 && n >= 2 & n <= 6;
+        // BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && n >= 4 && n <= 5;
+        BiPredicate<Character, Integer> deadToLive26 = (s, n) -> s == 0 && n >= 2 && n <= 6;
         tmp.put(RuleSet.RULE_3, liveToLive45.or(deadToLive26));
 
         RULES = Collections.unmodifiableMap(tmp);

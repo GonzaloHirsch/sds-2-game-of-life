@@ -50,7 +50,6 @@ public class Main {
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
-
         AddToStatisticsFile(ConfigurationParser.is2D, DISPLACEMENT_STATS, ruleSet, ConfigurationParser.livingPercentage, regressionDistance.getSlope());
         AddToStatisticsFile(ConfigurationParser.is2D, LIVING_STATS, ruleSet, ConfigurationParser.livingPercentage, regressionLiving.getSlope());
     }
