@@ -7,6 +7,10 @@ public enum RuleSet{
         this.ruleId = id;
     }
 
+    public int getRuleId(){
+        return this.ruleId;
+    }
+
     static RuleSet fromId(int id){
         switch (id){
             case 1:

@@ -41,7 +41,7 @@ public class Main {
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
-        AddToStatisticsFile(ConfigurationParser.livingPercentage, regression.getSlope());
+        AddToStatisticsFile(ConfigurationParser.is2D ? 2 : 3, ruleSet, ConfigurationParser.livingPercentage, regression.getSlope());
     }
 
     private static void GenerateOutputFile(List<int[]> cells, int iteration) {
@@ -76,9 +76,9 @@ public class Main {
      * @param livingPercentage Number between 0 and 100 that indicates the percentage of living cells in the initial configuration inside the limited space
      * @param velocity Slope of the regression created by the max distance of a living cell to the origin in function of time intervals
      */
-    private static void AddToStatisticsFile(double livingPercentage, double velocity) {
+    private static void AddToStatisticsFile(int dimensions, RuleSet rule, double livingPercentage, double velocity) {
         try {
-            String sf = String.format("%.3f %.3f\n", livingPercentage, velocity);
+            String sf = String.format("%d %d %.3f %.3f\n", dimensions, rule.getRuleId(), livingPercentage, velocity);
             Files.write(Paths.get(STAT_FILE), sf.getBytes(), StandardOpenOption.APPEND);
 
         } catch (FileNotFoundException e) {
