@@ -13,6 +13,8 @@ DYNAMIC_FILE = "./parsable_files/dynamic.txt"
 
 DEAD = 0
 
+#Dim Displ/Living Rule percent velocity
+
 # Parsing the static file to get the the dimensions and type of dimensions
 sf = open(STATIC_FILE, "r")
 index = 0
@@ -31,7 +33,7 @@ for line in sf:
 def distance_to_origin(x, y):
     x_center, y_center = X_LIM / 2, Y_LIM / 2
     distance = int(math.sqrt((x - x_center)**2 + (y - y_center)**2))
-    return distance + 4
+    return distance + 10
 
 def empty_grid(N, M):
 

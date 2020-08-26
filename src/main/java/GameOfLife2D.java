@@ -11,15 +11,20 @@ public class GameOfLife2D implements GameOfLife {
     static {
         Map<RuleSet, BiPredicate<Character, Integer>> tmp = new HashMap<>();
 
-        // Ruleset 1
+        // Ruleset 1 -> Conway's Game of Life
         BiPredicate<Character, Integer> liveToLive23 = (s, n) -> s == 1 && (n == 2 || n == 3);
         BiPredicate<Character, Integer> deadToLive33 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive23.or(deadToLive33));
 
-        // Ruleset 2
-        BiPredicate<Character, Integer> liveToLive45 = (s, n) -> s == 1 && (n == 4 || n == 5);
-        BiPredicate<Character, Integer> deadToLive55 = (s, n) -> s == 0 && n == 5;
-        tmp.put(RuleSet.RULE_2, liveToLive45.or(deadToLive55));
+        // Ruleset 2 -> Expansion of moss
+        BiPredicate<Character, Integer> liveToLive12 = (s, n) -> s == 1 && (n >= 4 && n <= 6);
+        BiPredicate<Character, Integer> deadToLive22 = (s, n) -> s == 0 && (n >= 3 && n <= 5);
+        tmp.put(RuleSet.RULE_2, liveToLive12.or(deadToLive22));
+
+        // Ruleset 3 -> Expansion
+        BiPredicate<Character, Integer> liveToLive234 = (s, n) -> s == 1 && (n == 2 || n == 3 || n == 4);
+        BiPredicate<Character, Integer> deadToLive35 = (s, n) -> s == 0 && (n == 3);
+        tmp.put(RuleSet.RULE_3, liveToLive234.or(deadToLive35));
 
         RULES = Collections.unmodifiableMap(tmp);
     }
