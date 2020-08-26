@@ -40,7 +40,8 @@ def color_for_cell(x, y, z):
     color_r = color_function(distance, x_center)
     if color_r > 1:
         color_r = 0.999
-    return [color_r, 20/255, 69/255]
+    #return [color_r, 20/255, 69/255]
+    return [color_r, 1 - color_r, 69/255]
 
 # Function to transform into a cube given a set of coordinates
 def cuboid_data(o, size=(1,1,1)):
@@ -71,11 +72,12 @@ def prepareAxis(ax):
     ax.set_ylim([0,Y_LIM])
     ax.set_zlim([0,Z_LIM])
     ax.grid(False)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_zticks([])
+    #ax.set_xticks([])
+    #ax.set_yticks([])
+    #ax.set_zticks([])
 
 def init_3d():
+    ax.set_title('Iteration 0')
     if data[0]["len"] > 0:
         ax.add_collection3d(data[0]["data"])
     return ax,
@@ -83,8 +85,10 @@ def init_3d():
 def update_3d(frame):
     ax.cla()
     prepareAxis(ax)
+    ax.set_title('Iteration ' + str(frame))
     if data[frame]["len"] > 0:
         ax.add_collection3d(data[frame]["data"])
+    ax.view_init(elev=10., azim=frame * 2)
     return ax,
 
 def parse_dynamic_points():
@@ -130,14 +134,16 @@ def parse_dynamic_points():
 # Determine the code to execute if the plot is 2D or 3D
 if DIMS == 3:
     # Parsing the dynamic points
+    print("Processing simulation data...")
     data = parse_dynamic_points()
+    print("Preparing visualization...")
     x,y,z = np.indices((X_LIM, Y_LIM, Z_LIM))-.5
-
+    plt.style.use('dark_background')
     fig = plt.figure(figsize=(7,7))
     ax = fig.gca(projection='3d')
     ax.set_aspect('auto')
     prepareAxis(ax)
-
+    print("Rendering visualization...")
     ani = animation.FuncAnimation(fig, update_3d, frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
                         init_func=init_3d)
 

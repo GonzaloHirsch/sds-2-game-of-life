@@ -42,10 +42,11 @@ def add_living_cells(cells, grid):
     for cell in cells:
         	grid[cell[0], cell[1]] = distance_to_origin(cell[0], cell[1])
 
-def update(frames, img, grid, data, N, M):
+def update(frames, img, grid, data, N, M, ax):
 
     new_grid = empty_grid(N, M)
     add_living_cells(data[int(frames)], new_grid)
+    ax.set_title('Iteration ' + str(frames))
 
     # update data
     img.set_data(new_grid)
@@ -58,7 +59,7 @@ def parse_dynamic_points():
     # Parsing the static file to get the the dimensions and type of dimensions
     df = open(DYNAMIC_FILE, "r")
 
-    current_iteration = 0;
+    current_iteration = 0
 
     for line in df:
 
@@ -66,7 +67,7 @@ def parse_dynamic_points():
 
         # On a new time frame iteration
         if len(line_data) == 1:
-            current_iteration = int(line_data[0]);
+            current_iteration = int(line_data[0])
             data[current_iteration] = []
         elif len(line_data) > 2:
             print("Specified data is not in 2 dimensions")
@@ -116,7 +117,7 @@ def main():
     # set up animation
     fig, ax = plt.subplots()
     img = ax.imshow(grid, interpolation='nearest', cmap=cmap, norm=norm)
-    ani = animation.FuncAnimation(fig, update, fargs=(img, grid, data, X_LIM, Y_LIM),
+    ani = animation.FuncAnimation(fig, update, fargs=(img, grid, data, X_LIM, Y_LIM, ax),
                                   frames=np.linspace(start=0, stop=len(data) - 1, num=len(data)),
                                   interval=updateInterval,
                                   save_count=50)
