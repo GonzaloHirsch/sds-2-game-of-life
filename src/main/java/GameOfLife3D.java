@@ -47,6 +47,7 @@ public class GameOfLife3D implements GameOfLife {
     private final RuleSet rule;
     private double maxDistance = 0;
     private int livingCellsCount = 0;
+    private int totalCells;
 
     public GameOfLife3D(List<char[][]> layers, RuleSet ruleId) {
         // Setting the board limits
@@ -62,6 +63,9 @@ public class GameOfLife3D implements GameOfLife {
         for (int i = 0; i < this.zLim; i++) {
             this.board[i] = layers.get(i);
         }
+
+        // Setting the total number of cells
+        this.totalCells = this.xLim * this.yLim * this.zLim;
     }
 
     public List<int[]> simulateStep() {
@@ -121,8 +125,8 @@ public class GameOfLife3D implements GameOfLife {
     }
 
     @Override
-    public int getLivingCellsCount() {
-        return livingCellsCount;
+    public double getLivingPercentage() {
+        return ((double)this.livingCellsCount / (double)this.totalCells) * 100.0;
     }
 
     public double getMaxDistance() {

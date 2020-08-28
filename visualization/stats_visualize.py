@@ -66,7 +66,6 @@ for dimension in stats:
                 std = calculateVelocitySD(stats[dimension][stat_type][rule][percent], mean)
                 stats[dimension][stat_type][rule][percent] = {'mean': mean, 'std': std}
 
-print(stats)
 for dim in stats:
 
     # For each dimension and each stat_type (displacement or living)
@@ -101,6 +100,6 @@ for dim in stats:
             plt.errorbar(percentages, velocities, yerr=stds, fmt='o', color='black',
                                  ecolor='lightgray', elinewidth=3, capsize=0);
 
-            save_file = 'images/Dim' + dim + stat_type + 'stats.png'
-            plt.savefig(save_file)
+        save_file = 'images/Dim' + dim + stat_type + 'stats.png'
+        plt.savefig(save_file)
 

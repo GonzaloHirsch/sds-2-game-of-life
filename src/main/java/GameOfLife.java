@@ -2,7 +2,7 @@ import java.util.List;
 
 public interface GameOfLife {
     List<int[]> simulateStep();
-    int getLivingCellsCount();
+    double getLivingPercentage();
     double getMaxDistance();
     double calculateMaxDistance();
 }

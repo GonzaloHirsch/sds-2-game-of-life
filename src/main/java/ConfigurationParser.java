@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class ConfigurationParser {
     public static boolean is2D;
-    public static double livingPercentage;
-    public static int livingCells = 0;
+    public static double livingLimitedPercentage;
+    public static double livingTotalPercentage = 0.0;
     public static int xLim;
     public static int yLim;
     public static int zLim = 1;
@@ -42,12 +42,13 @@ public class ConfigurationParser {
         if (!is2D) {
             zLim = sc.nextInt();
         }
-        livingPercentage = sc.nextDouble();
+        livingLimitedPercentage = sc.nextDouble();
     }
 
     private static void ParseDynamicData(String dynamicFileName) throws FileNotFoundException {
         File file = new File(dynamicFileName);
         Scanner sc = new Scanner(file);
+        int livingCells = 0;
 
         for (int z = 0; z < zLim; z++) {
             board.add(new char[xLim][yLim]);
@@ -79,5 +80,7 @@ public class ConfigurationParser {
             board.get(z)[x][y] = 1;
             livingCells++;
         }
+        double totalCells = xLim * yLim * (is2D ? 1 : zLim);
+        livingTotalPercentage = ((double)livingCells / totalCells) * 100.0;
     }
 }

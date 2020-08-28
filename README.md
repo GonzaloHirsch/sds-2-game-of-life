@@ -98,10 +98,66 @@ or **matplotlib** if using OSx
 pip3 install matplotlib
 ```
 
+## Graph Visualization
+After generating the initial file as specified in previous sections:
+
+####Observable vs. time
+To create this graph, the file observable_vs_time.txt is used. The first line of the file should be manually written depending on the data you want to analyze. The format of this line must be:
+```
+Dimension ObservableType IntialLivingPercentage
+``` 
+Where ObservableType is either "Living" or "Displacent".
+
+When you run the algorithm, the data of the run will be appended to the file. This should be the same type of data you described in the first line, it is your responsibility to ensure this.
+
+To change the data you are collecting, head on over to Main.java and make sure the observable lists is using the wanted data. This can be either percentage of living cells or maximum distance to center:
+```
+List<Double> observable = new ArrayList<>();
+observable.add(ConfigurationParser.livingTotalPercentage);
+...
+observable.add(gol.getLivingPercentage());
+
+OR
+
+List<Double> observable = new ArrayList<>();
+observable.add(gol.calculateMaxDistance());
+...
+observable.add(gol.getMaxDistance());
+```
+You can also specify whether you want the regression lines in the created graph for the plotted lines and what interval to consider for these. You can specify this in the obs_graph_visualize.py file with the variables:
+```$xslt
+show_regression = False
+reg_time_limit = 50     #time to consider in the regression
+```
+To graph, run the command:
+```$xslt
+python visualization/obs_graph_visualize.py 
+```
+
+####Velocity vs. Initial Percentage
+To view the graphs created with the data appended in the file stats_visualize.py, run:
+```$xslt
+python visualization/stats_visualize.py 
+```
+
+## Visualization
+The visualization can be done in python
+
+For the generation fo random input **matplotlib** needs to be installed by using:
+```
+pip install matplotlib
+```
+or **matplotlib** if using OSx
+```
+pip3 install matplotlib
+```
+
 Being inside the _visualization_ folder, run the following command to create the random input files:
 ```
 python visualize.py
 ```
+
+
 
 ## Authors
 

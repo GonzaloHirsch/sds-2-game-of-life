@@ -16,7 +16,7 @@ public class GameOfLife2D implements GameOfLife {
         BiPredicate<Character, Integer> deadToLive33 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive23.or(deadToLive33));
 
-        // Ruleset 2 -> Expansion of moss
+        // Ruleset 2 -> Death an stable
         BiPredicate<Character, Integer> liveToLive12 = (s, n) -> s == 1 && (n >= 4 && n <= 6);
         BiPredicate<Character, Integer> deadToLive22 = (s, n) -> s == 0 && (n >= 3 && n <= 5);
         tmp.put(RuleSet.RULE_2, liveToLive12.or(deadToLive22));
@@ -38,6 +38,7 @@ public class GameOfLife2D implements GameOfLife {
     private final RuleSet rule;
     private double maxDistance = 0;
     private int livingCellsCount = 0;
+    private int totalCells;
 
     public GameOfLife2D(List<char[][]> layers, RuleSet ruleId) {
         // Setting the board limits
@@ -47,6 +48,7 @@ public class GameOfLife2D implements GameOfLife {
 
         // Setting the board
         this.board = layers.get(0);
+        this.totalCells = this.xLim * this.yLim;
     }
 
     @Override
@@ -100,8 +102,8 @@ public class GameOfLife2D implements GameOfLife {
     }
 
     @Override
-    public int getLivingCellsCount() {
-        return livingCellsCount;
+    public double getLivingPercentage() {
+        return ((double)this.livingCellsCount / (double)this.totalCells) * 100.0;
     }
 
     public double getMaxDistance() {
