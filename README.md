@@ -102,28 +102,15 @@ pip3 install matplotlib
 After generating the initial file as specified in previous sections:
 
 ####evolution vs. time
-To create this graph, the file evolution_vs_time.txt is used. The first line of the file should be manually written depending on the data you want to analyze. The format of this line must be:
+To create this graph, the file radius_vs_time.txt or living_percent_vs_time.txt is used. The first line of the file should be manually written depending on the data you want to analyze. The format of this line must be:
 ```
 Dimension evolutionType IntialLivingPercentage
 ``` 
-Where evolutionType is either "Living" or "Displacent".
+Where evolutionType is either "Living" or "Radius".
 
-When you run the algorithm, the data of the run will be appended to the file. This should be the same type of data you described in the first line, it is your responsibility to ensure this.
+When you run the algorithm, the data of the run will be appended to the adequate file. This should be the same type of data you described in the first line, it is your responsibility to ensure this.
 
-To change the data you are collecting, head on over to Main.java and make sure the evolution lists is using the wanted data. This can be either percentage of living cells or maximum distance to center:
-```
-List<Double> evolution = new ArrayList<>();
-evolution.add(ConfigurationParser.livingTotalPercentage);
-...
-evolution.add(gol.getLivingPercentage());
 
-OR
-
-List<Double> evolution = new ArrayList<>();
-evolution.add(gol.calculateMaxDistance());
-...
-evolution.add(gol.getMaxDistance());
-```
 You can also specify whether you want the regression lines in the created graph for the plotted lines and what interval to consider for these. You can specify this in the evolution_graph_visualize.py file with the variables:
 ```$xslt
 show_regression = False
@@ -131,8 +118,9 @@ reg_time_limit = 50     #time to consider in the regression
 ```
 To graph, run the command:
 ```$xslt
-python visualization/evolution_graph_visualize.py 
+python visualization/evolution_graph_visualize.py fileName
 ```
+Where fileName is one of the the two txt files mentioned at the beginning of this section.
 
 ####Velocity vs. Initial Percentage
 To view the graphs created with the data appended in the file stats_visualize.py, run:
