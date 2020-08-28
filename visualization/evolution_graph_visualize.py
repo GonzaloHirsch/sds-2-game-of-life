@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-OBS_FILE = "./parsable_files/observable_vs_time.txt"
+EVOLUTION_FILE = "./parsable_files/evolution_vs_time.txt"
 
-f = open(OBS_FILE, "r")
+f = open(EVOLUTION_FILE, "r")
 
-observable = []
+evolution = []
 time = []
 percentage = 0
 dim = 0
-obs_type = ''
+evolution_type = ''
 rule = 0
 stats = {}
 
@@ -23,13 +23,13 @@ for line in f:
 
 	if count == 0:
 	    dim = data[0]
-	    obs_type = data[1]
+	    evolution_type = data[1]
 	    percentage = data[2]
 	elif len(data) == 1:
 	    if count > 1:
-	        stats[rule]['obs'] = observable
+	        stats[rule]['evolution'] = evolution
 	        stats[rule]['time'] = time
-	        observable = []
+	        evolution = []
 	        time = []
 
 	    rule = data[0]
@@ -38,11 +38,11 @@ for line in f:
 
 	else:
 	    time.append(float(data[0]))
-	    observable.append(float(data[1]))
+	    evolution.append(float(data[1]))
 
 	count += 1
 
-stats[rule]['obs'] = observable
+stats[rule]['evolution'] = evolution
 stats[rule]['time'] = time
 
 
@@ -50,7 +50,7 @@ stats[rule]['time'] = time
 plt.xlabel('Time (frames)')
 
 # Set the y axis label
-if obs_type == 'Living':
+if evolution_type == 'Living':
     ylabel = 'Percentage of Living Cells (%)'
 else:
     ylabel = 'Maximum displacement from center'
@@ -60,16 +60,16 @@ plt.ylabel(ylabel)
 plt.title(dim + 'D & ' + percentage + '%: ' + ylabel + ' vs. Time')
 
 for rule in stats:
-    observable = stats[rule]['obs']
+    evolution = stats[rule]['evolution']
     time = stats[rule]['time']
 
     #create scatter plot
     label = 'Rule ' + rule
-    plt.plot(time, observable, label=label)
+    plt.plot(time, evolution, label=label)
 
     if show_regression:
         #m = slope, b=intercept
-        m, b = np.polyfit(time, observable, 1)
+        m, b = np.polyfit(time, evolution, 1)
 
         # Creating the regression line
         regression = []
@@ -83,4 +83,4 @@ for rule in stats:
     #Labelling the lines
     plt.legend()
 
-plt.savefig('images/' + dim + 'd' + obs_type + str(percentage) + '.png')
+plt.savefig('images/' + dim + 'd' + evolution_type + str(percentage) + '.png')

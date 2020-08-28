@@ -101,37 +101,37 @@ pip3 install matplotlib
 ## Graph Visualization
 After generating the initial file as specified in previous sections:
 
-####Observable vs. time
-To create this graph, the file observable_vs_time.txt is used. The first line of the file should be manually written depending on the data you want to analyze. The format of this line must be:
+####evolution vs. time
+To create this graph, the file evolution_vs_time.txt is used. The first line of the file should be manually written depending on the data you want to analyze. The format of this line must be:
 ```
-Dimension ObservableType IntialLivingPercentage
+Dimension evolutionType IntialLivingPercentage
 ``` 
-Where ObservableType is either "Living" or "Displacent".
+Where evolutionType is either "Living" or "Displacent".
 
 When you run the algorithm, the data of the run will be appended to the file. This should be the same type of data you described in the first line, it is your responsibility to ensure this.
 
-To change the data you are collecting, head on over to Main.java and make sure the observable lists is using the wanted data. This can be either percentage of living cells or maximum distance to center:
+To change the data you are collecting, head on over to Main.java and make sure the evolution lists is using the wanted data. This can be either percentage of living cells or maximum distance to center:
 ```
-List<Double> observable = new ArrayList<>();
-observable.add(ConfigurationParser.livingTotalPercentage);
+List<Double> evolution = new ArrayList<>();
+evolution.add(ConfigurationParser.livingTotalPercentage);
 ...
-observable.add(gol.getLivingPercentage());
+evolution.add(gol.getLivingPercentage());
 
 OR
 
-List<Double> observable = new ArrayList<>();
-observable.add(gol.calculateMaxDistance());
+List<Double> evolution = new ArrayList<>();
+evolution.add(gol.calculateMaxDistance());
 ...
-observable.add(gol.getMaxDistance());
+evolution.add(gol.getMaxDistance());
 ```
-You can also specify whether you want the regression lines in the created graph for the plotted lines and what interval to consider for these. You can specify this in the obs_graph_visualize.py file with the variables:
+You can also specify whether you want the regression lines in the created graph for the plotted lines and what interval to consider for these. You can specify this in the evolution_graph_visualize.py file with the variables:
 ```$xslt
 show_regression = False
 reg_time_limit = 50     #time to consider in the regression
 ```
 To graph, run the command:
 ```$xslt
-python visualization/obs_graph_visualize.py 
+python visualization/evolution_graph_visualize.py 
 ```
 
 ####Velocity vs. Initial Percentage

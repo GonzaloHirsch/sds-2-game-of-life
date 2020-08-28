@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Main {
     private final static String STAT_FILE = "./parsable_files/statistics.txt";
-    private final static String OBS_FILE = "./parsable_files/observable_vs_time.txt";
+    private final static String EVOLUTION_FILE = "./parsable_files/evolution_vs_time.txt";
     private final static String LIVING_STATS = "Living";
     private final static String DISPLACEMENT_STATS = "Displacement";
 
@@ -40,9 +40,9 @@ public class Main {
         SimpleRegression regressionLiving = new SimpleRegression();
         regressionDistance.addData(0, ConfigurationParser.livingTotalPercentage);
 
-        // To create the graph observable vs time
-        List<Double> observable = new ArrayList<>();
-        observable.add(ConfigurationParser.livingTotalPercentage);
+        // To create the graph evolution vs time
+        List<Double> evolution = new ArrayList<>();
+        evolution.add(ConfigurationParser.livingTotalPercentage);
 
         for (int i = 1; i < OptionsParser.timeInterval; i++) {
             // Simulating the step
@@ -52,12 +52,12 @@ public class Main {
             regressionDistance.addData(i, gol.getMaxDistance());
             regressionLiving.addData(i, gol.getLivingPercentage());
 
-            observable.add(gol.getLivingPercentage());
+            evolution.add(gol.getLivingPercentage());
 
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
-        AddToObservableStatisticsFile(OptionsParser.ruleSet, observable);
+        AddToEvolutionStatisticsFile(OptionsParser.ruleSet, evolution);
         AddToVelocityStatisticsFile(ConfigurationParser.is2D, DISPLACEMENT_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionDistance.getSlope());
         AddToVelocityStatisticsFile(ConfigurationParser.is2D, LIVING_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionLiving.getSlope());
     }
@@ -89,22 +89,22 @@ public class Main {
     }
 
     /**
-     * Generates the observable vs time statistics file
+     * Generates the evolution vs time statistics file
      *
-     * @param observable Data of living cell % or maximum displacement based on time
+     * @param evolution Data of living cell % or maximum displacement based on time
      */
-    private static void AddToObservableStatisticsFile(RuleSet rule, List<Double> observable) {
+    private static void AddToEvolutionStatisticsFile(RuleSet rule, List<Double> evolution) {
         StringBuilder sb = new StringBuilder();
         sb.append(rule.toString()).append("\n");
-        for (int t = 0; t < observable.size(); t++) {
-            sb.append(String.format("%d %.3f\n", t, observable.get(t)));
+        for (int t = 0; t < evolution.size(); t++) {
+            sb.append(String.format("%d %.3f\n", t, evolution.get(t)));
         }
         try {
-            Files.write(Paths.get(OBS_FILE), sb.toString().getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get(EVOLUTION_FILE), sb.toString().getBytes(), StandardOpenOption.APPEND);
         } catch (FileNotFoundException e) {
-            System.out.println(OBS_FILE + " not found");
+            System.out.println(EVOLUTION_FILE + " not found");
         } catch (IOException e) {
-            System.out.println("Error writing to the statistics file: " + OBS_FILE);
+            System.out.println("Error writing to the statistics file: " + EVOLUTION_FILE);
         }
     }
 

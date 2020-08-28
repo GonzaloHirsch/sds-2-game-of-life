@@ -50,3 +50,7 @@
 2 Living 3 80.000 0.080
 2 Displacement 3 80.000 0.144
 2 Living 3 80.000 0.086
+2 Displacement 3 80.000 0.145
+2 Living 3 80.000 0.086
+2 Displacement 3 80.000 0.087
+2 Living 3 80.000 0.078
