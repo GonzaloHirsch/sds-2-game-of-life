@@ -9,7 +9,8 @@ import java.util.List;
 
 public class Main {
     private final static String STAT_FILE = "./parsable_files/statistics.txt";
-    private final static String EVOLUTION_FILE = "./parsable_files/evolution_vs_time.txt";
+    private final static String RADIUS_FILE = "./parsable_files/radius_vs_time.txt";
+    private final static String LIVING_PERCENT_FILE = "./parsable_files/living_percent_vs_time.txt";
     private final static String LIVING_STATS = "Living";
     private final static String DISPLACEMENT_STATS = "Displacement";
 
@@ -29,20 +30,23 @@ public class Main {
         List<char[][]> board = ConfigurationParser.board;
         RuleSet ruleSet = OptionsParser.ruleSet;
         GameOfLife gol = ConfigurationParser.is2D ? new GameOfLife2D(board, ruleSet) : new GameOfLife3D(board, ruleSet);
+        double initialMaxDistance = gol.calculateMaxDistance();
 
         List<int[]> pointsToWrite;
         // Used to calculate the slope (velocity) of the function maxDistance(t)
         SimpleRegression regressionDistance = new SimpleRegression();
         // Getting the initial maximum distance into the regression
-        regressionDistance.addData(0, gol.calculateMaxDistance());
+        regressionDistance.addData(0, initialMaxDistance);
 
         // Used to calculate the rate of change of the living cells
         SimpleRegression regressionLiving = new SimpleRegression();
         regressionDistance.addData(0, ConfigurationParser.livingTotalPercentage);
 
         // To create the graph evolution vs time
-        List<Double> evolution = new ArrayList<>();
-        evolution.add(ConfigurationParser.livingTotalPercentage);
+        List<Double> livingVsTime = new ArrayList<>();
+        List<Double> radiusVsTime = new ArrayList<>();
+        livingVsTime.add(ConfigurationParser.livingTotalPercentage);
+        radiusVsTime.add(initialMaxDistance);
 
         for (int i = 1; i < OptionsParser.timeInterval; i++) {
             // Simulating the step
@@ -52,12 +56,14 @@ public class Main {
             regressionDistance.addData(i, gol.getMaxDistance());
             regressionLiving.addData(i, gol.getLivingPercentage());
 
-            evolution.add(gol.getLivingPercentage());
+            livingVsTime.add(gol.getLivingPercentage());
+            radiusVsTime.add(gol.getMaxDistance());
 
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
-        AddToEvolutionStatisticsFile(OptionsParser.ruleSet, evolution);
+        AddToEvolutionStatisticsFile(OptionsParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
+        AddToEvolutionStatisticsFile(OptionsParser.ruleSet, radiusVsTime, RADIUS_FILE);
         AddToVelocityStatisticsFile(ConfigurationParser.is2D, DISPLACEMENT_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionDistance.getSlope());
         AddToVelocityStatisticsFile(ConfigurationParser.is2D, LIVING_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionLiving.getSlope());
     }
@@ -93,18 +99,18 @@ public class Main {
      *
      * @param evolution Data of living cell % or maximum displacement based on time
      */
-    private static void AddToEvolutionStatisticsFile(RuleSet rule, List<Double> evolution) {
+    private static void AddToEvolutionStatisticsFile(RuleSet rule, List<Double> evolution, String file) {
         StringBuilder sb = new StringBuilder();
         sb.append(rule.toString()).append("\n");
         for (int t = 0; t < evolution.size(); t++) {
             sb.append(String.format("%d %.3f\n", t, evolution.get(t)));
         }
         try {
-            Files.write(Paths.get(EVOLUTION_FILE), sb.toString().getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get(file), sb.toString().getBytes(), StandardOpenOption.APPEND);
         } catch (FileNotFoundException e) {
-            System.out.println(EVOLUTION_FILE + " not found");
+            System.out.println(file + " not found");
         } catch (IOException e) {
-            System.out.println("Error writing to the statistics file: " + EVOLUTION_FILE);
+            System.out.println("Error writing to the statistics file: " + file);
         }
     }
 

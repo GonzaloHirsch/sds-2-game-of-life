@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
-EVOLUTION_FILE = "./parsable_files/evolution_vs_time.txt"
+if len(sys.argv) != 2:
+    print("Must specify the name of the file to parse")
+    exit(1)
 
-f = open(EVOLUTION_FILE, "r")
+f = open(sys.argv[1], "r")
 
 evolution = []
 time = []
