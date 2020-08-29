@@ -118,8 +118,10 @@ public class GameOfLife2D implements GameOfLife {
         for (int x = 0; x < this.xLim; x++) {
             for (int y = 0; y < this.yLim; y++) {
                 // Calculating the distance and checking if greater than max
-                distanceToCenter = this.getDistanceToCenter(x, y);
-                this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                if (this.board[x][y] == 1) {
+                    distanceToCenter = this.getDistanceToCenter(x, y);
+                    this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                }
             }
         }
         return maxDistance;
