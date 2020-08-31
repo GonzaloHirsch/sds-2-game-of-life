@@ -3,6 +3,10 @@ public enum RuleSet{
 
     private int ruleId;
 
+    public int getRuleId(){
+        return this.ruleId;
+    }
+
     RuleSet(int id){
         this.ruleId = id;
     }

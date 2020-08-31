@@ -16,7 +16,7 @@ public class GameOfLife2D implements GameOfLife {
         BiPredicate<Character, Integer> deadToLive33 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive23.or(deadToLive33));
 
-        // Ruleset 2 -> Growth and stable
+        // Ruleset 2 -> Stable
         BiPredicate<Character, Integer> liveToLive12 = (s, n) -> s == 1 && (n >= 4 && n <= 6);
         BiPredicate<Character, Integer> deadToLive22 = (s, n) -> s == 0 && (n >= 3 && n <= 5);
         tmp.put(RuleSet.RULE_2, liveToLive12.or(deadToLive22));

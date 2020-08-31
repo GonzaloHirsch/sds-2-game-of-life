@@ -128,7 +128,7 @@ def main():
     if args.movfile:
         ani.save('animations/2d/' + args.movfile, fps=8, extra_args=['-vcodec', 'libx264'])
 
-    plt.show()
+    #plt.show()
 
 # call main
 if __name__ == '__main__':

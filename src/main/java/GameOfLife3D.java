@@ -68,6 +68,7 @@ public class GameOfLife3D implements GameOfLife {
         this.totalCells = this.xLim * this.yLim * this.zLim;
     }
 
+    @Override
     public List<int[]> simulateStep() {
         // List for active cells
         List<int[]> activeCells = new ArrayList<>();
