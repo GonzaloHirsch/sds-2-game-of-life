@@ -42,7 +42,6 @@ for line in f:
         stats[dim][percentage][rule]['time'].append(float(time))
         time += 1
 
-print(stats)
 for dim in stats:
     for percentage in stats[dim]:
         plt.clf()
@@ -84,4 +83,4 @@ for dim in stats:
             #Labelling the lines
             plt.legend()
 
-        plt.savefig('images/' + dim + 'd' + y_type + str(percentage) + '.png')
+        plt.savefig('images/' + dim + 'd' + y_type + str(int(float(percentage))) + '.png')

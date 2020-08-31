@@ -33,14 +33,6 @@ public class Main {
         double initialMaxDistance = gol.calculateMaxDistance();
 
         List<int[]> pointsToWrite;
-        // Used to calculate the slope (velocity) of the function maxDistance(t)
-        SimpleRegression regressionDistance = new SimpleRegression();
-        // Getting the initial maximum distance into the regression
-        regressionDistance.addData(0, initialMaxDistance);
-
-        // Used to calculate the rate of change of the living cells
-        SimpleRegression regressionLiving = new SimpleRegression();
-        regressionDistance.addData(0, ConfigurationParser.livingTotalPercentage);
 
         // To create the graph evolution vs time
         List<Double> livingVsTime = new ArrayList<>();
@@ -52,10 +44,6 @@ public class Main {
             // Simulating the step
             pointsToWrite = gol.simulateStep();
 
-            // Adding the points to the regressions
-            regressionDistance.addData(i, gol.getMaxDistance());
-            regressionLiving.addData(i, gol.getLivingPercentage());
-
             livingVsTime.add(gol.getLivingPercentage());
             radiusVsTime.add(gol.getMaxDistance());
 
@@ -64,8 +52,6 @@ public class Main {
         }
         AddToEvolutionStatisticsFile(ConfigurationParser.is2D, ConfigurationParser.livingLimitedPercentage, OptionsParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
         AddToEvolutionStatisticsFile(ConfigurationParser.is2D, ConfigurationParser.livingLimitedPercentage, OptionsParser.ruleSet, radiusVsTime, RADIUS_FILE);
-        AddToVelocityStatisticsFile(ConfigurationParser.is2D, DISPLACEMENT_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionDistance.getSlope());
-        AddToVelocityStatisticsFile(ConfigurationParser.is2D, LIVING_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionLiving.getSlope());
     }
 
     private static void GenerateOutputFile(List<int[]> cells, int iteration) {
@@ -114,25 +100,5 @@ public class Main {
             System.out.println("Error writing to the statistics file: " + file);
         }
     }
-
-    /**
-     * Generates the velocity vs initial living % statistics file
-     *
-     * @param livingPercentage Number between 0 and 100 that indicates the percentage of living cells in the initial configuration inside the limited space
-     * @param velocity Slope of the regression created by the max distance of a living cell to the origin in function of time intervals
-     */
-    private static void AddToVelocityStatisticsFile(boolean is2D, String statType, RuleSet rule, double livingPercentage, double velocity) {
-        try {
-            String sf = String.format("%d %s %s %.3f %.3f\n", is2D ? 2 : 3, statType, rule.toString(), livingPercentage, velocity);
-            Files.write(Paths.get(STAT_FILE), sf.getBytes(), StandardOpenOption.APPEND);
-
-        } catch (FileNotFoundException e) {
-            System.out.println(STAT_FILE + " not found");
-        } catch (IOException e) {
-            System.out.println("Error writing to the statistics file: " + STAT_FILE);
-        }
-
-    }
-
 }
 
