@@ -62,8 +62,8 @@ public class Main {
             // Writing results to file
             GenerateOutputFile(pointsToWrite, i);
         }
-        AddToEvolutionStatisticsFile(OptionsParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
-        AddToEvolutionStatisticsFile(OptionsParser.ruleSet, radiusVsTime, RADIUS_FILE);
+        AddToEvolutionStatisticsFile(ConfigurationParser.is2D, ConfigurationParser.livingLimitedPercentage, OptionsParser.ruleSet, livingVsTime, LIVING_PERCENT_FILE);
+        AddToEvolutionStatisticsFile(ConfigurationParser.is2D, ConfigurationParser.livingLimitedPercentage, OptionsParser.ruleSet, radiusVsTime, RADIUS_FILE);
         AddToVelocityStatisticsFile(ConfigurationParser.is2D, DISPLACEMENT_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionDistance.getSlope());
         AddToVelocityStatisticsFile(ConfigurationParser.is2D, LIVING_STATS, ruleSet, ConfigurationParser.livingLimitedPercentage, regressionLiving.getSlope());
     }
@@ -99,12 +99,13 @@ public class Main {
      *
      * @param evolution Data of living cell % or maximum displacement based on time
      */
-    private static void AddToEvolutionStatisticsFile(RuleSet rule, List<Double> evolution, String file) {
+    private static void AddToEvolutionStatisticsFile(boolean is2D, double initialPercentage, RuleSet rule, List<Double> evolution, String file) {
         StringBuilder sb = new StringBuilder();
-        sb.append(rule.toString()).append("\n");
-        for (int t = 0; t < evolution.size(); t++) {
-            sb.append(String.format("%d %.3f\n", t, evolution.get(t)));
+        sb.append(String.format("%d %.3f %d", is2D ? 2 : 3, initialPercentage, rule.getRuleId()));
+        for (Double aDouble : evolution) {
+            sb.append(String.format(" %.3f", aDouble));
         }
+        sb.append("\n");
         try {
             Files.write(Paths.get(file), sb.toString().getBytes(), StandardOpenOption.APPEND);
         } catch (FileNotFoundException e) {

@@ -85,7 +85,12 @@ for dim in stats:
         plt.ylabel(y_label)
 
         # Set a title of the current graph.
-        plt.title('TO BE DETERMINED DEPENDING ON THE CASE')
+        if stat_type == 'Living':
+            title = 'Average change in Living Cells for initial cell percentages per rule'
+        else:
+            title = 'Average expansion velocity for initial cell percentages per rule'
+
+        plt.title(title)
 
         for rule in stats[dim][stat_type]:
             #Retrieving the data for the given dimension, stat_type and rule
@@ -94,12 +99,12 @@ for dim in stats:
             label = 'Rule ' + rule
             plt.plot(percentages, velocities, label=label)
 
-            #Labelling the lines
-            plt.legend()
-
             plt.errorbar(percentages, velocities, yerr=stds, fmt='o', color='black',
-                                 ecolor='lightgray', elinewidth=3, capsize=0);
+                                 ecolor='lightgray', elinewidth=3, capsize=0)
 
+        #Labelling the lines
+        #plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), shadow=True, ncol=3)
+        plt.legend(bbox_to_anchor=(1,0.5), loc="center right", bbox_transform=plt.gcf().transFigure, fontsize=8, ncol=1)
         save_file = 'images/Dim' + dim + stat_type + 'stats.png'
         plt.savefig(save_file)
 
