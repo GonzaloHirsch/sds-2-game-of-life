@@ -26,7 +26,7 @@ for line in f:
     data = line.rstrip("\n").split(" ")
     dim = data[0]
     percentage = data[1]
-    rule = data[2]
+    rule = int(data[2])
 
     if dim not in stats:
 	    stats[dim] = {}
@@ -37,10 +37,10 @@ for line in f:
 	    stats[dim][percentage][rule]['evolution'] = []
 	    stats[dim][percentage][rule]['time'] = []
 
-    while time < (len(data) - 3):
-        stats[dim][percentage][rule]['evolution'].append(float(data[time + 3]))
-        stats[dim][percentage][rule]['time'].append(float(time))
-        time += 1
+	    while time < (len(data) - 3):
+	        stats[dim][percentage][rule]['evolution'].append(float(data[time + 3]))
+	        stats[dim][percentage][rule]['time'].append(float(time))
+	        time += 1
 
 for dim in stats:
     for percentage in stats[dim]:
@@ -57,14 +57,14 @@ for dim in stats:
         plt.ylabel(ylabel)
 
         # Set a title of the current graph.
-        plt.title(dim + 'D & ' + percentage + '%: ' + ylabel + ' vs. Time')
+        plt.title(dim + 'D & ' + str(int(float(percentage))) + '%: ' + ylabel + ' vs. Time')
 
         for rule in stats[dim][percentage]:
             evolution = stats[dim][percentage][rule]['evolution']
             time = stats[dim][percentage][rule]['time']
 
             #create scatter plot
-            label = 'Rule ' + rule
+            label = 'Rule ' + str(rule)
             plt.plot(time, evolution, label=label)
 
             if show_regression:
@@ -77,7 +77,7 @@ for dim in stats:
                     regression.append(m*t + b)
 
                 # Plotting the regression line
-                reg_label = 'Regression for rule ' + rule
+                reg_label = 'Regression for rule ' + str(rule)
                 plt.plot(time[:reg_time_limit], regression[:reg_time_limit], label=reg_label)
 
             #Labelling the lines

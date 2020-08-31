@@ -69,7 +69,7 @@
 2 Living 90 1 125
 2 Living 100 1 37
 2 Living 10 2 5
-2 Living 20 2 5
+2 Living 20 2 15
 2 Living 30 2 30
 2 Living 40 2 38
 2 Living 50 2 42
