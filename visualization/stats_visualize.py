@@ -67,7 +67,6 @@ for dimension in stats:
                 stats[dimension][stat_type][rule][percent] = {'mean': mean, 'std': std}
 
 for dim in stats:
-
     # For each dimension and each stat_type (displacement or living)
     # a separate graph will be created
     for stat_type in stats[dim]:

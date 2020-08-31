@@ -16,7 +16,7 @@ public class GameOfLife2D implements GameOfLife {
         BiPredicate<Character, Integer> deadToLive33 = (s, n) -> s == 0 && n == 3;
         tmp.put(RuleSet.DEFAULT_RULE, liveToLive23.or(deadToLive33));
 
-        // Ruleset 2 -> Death an stable
+        // Ruleset 2 -> Growth and stable
         BiPredicate<Character, Integer> liveToLive12 = (s, n) -> s == 1 && (n >= 4 && n <= 6);
         BiPredicate<Character, Integer> deadToLive22 = (s, n) -> s == 0 && (n >= 3 && n <= 5);
         tmp.put(RuleSet.RULE_2, liveToLive12.or(deadToLive22));
@@ -112,15 +112,13 @@ public class GameOfLife2D implements GameOfLife {
 
     @Override
     public double calculateMaxDistance() {
-        double distanceToCenter;
-        maxDistance = 0;
+        this.maxDistance = 0;
 
         for (int x = 0; x < this.xLim; x++) {
             for (int y = 0; y < this.yLim; y++) {
                 // Calculating the distance and checking if greater than max
                 if (this.board[x][y] == 1) {
-                    distanceToCenter = this.getDistanceToCenter(x, y);
-                    this.maxDistance = Math.max(distanceToCenter, this.maxDistance);
+                    this.maxDistance = Math.max(this.getDistanceToCenter(x, y), this.maxDistance);
                 }
             }
         }
