@@ -27,6 +27,6 @@ do
       python3 visualization/visualize2D.py --mov-file $filename --interval $tm
     fi
   done
-  python3 visualization/evolution_graph_visualize.py parsable_files/radius_vs_time.txt Living
-  python3 visualization/evolution_graph_visualize.py parsable_files/living_percent_vs_time.txt Radius
+  python3 visualization/evolution_graph_visualize.py parsable_files/radius_vs_time.txt Radius
+  python3 visualization/evolution_graph_visualize.py parsable_files/living_percent_vs_time.txt Living
 done

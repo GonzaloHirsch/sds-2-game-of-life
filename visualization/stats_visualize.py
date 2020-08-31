@@ -194,7 +194,7 @@ for dim in stats:
         #plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), shadow=True, ncol=3)
         plt.legend(bbox_to_anchor=(1,0.5), loc="center right", bbox_transform=plt.gcf().transFigure, fontsize=8, ncol=1)
         plt.gca().get_xaxis().set_minor_locator(MultipleLocator(10))
-        plt.gca().get_yaxis().set_minor_locator(MultipleLocator(1))
+        plt.gca().get_yaxis().set_minor_locator(MultipleLocator(0.5))
         plt.xlim(0, 110)
         save_file = 'images/Dim' + str(dim) + str(stat_type) + 'stats.png'
         plt.savefig(save_file)
