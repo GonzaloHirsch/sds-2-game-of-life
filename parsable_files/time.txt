@@ -1,4 +1,4 @@
-3 Living 10 1 2
+3 Living 10 1 3
 3 Living 20 1 2
 3 Living 30 1 13
 3 Living 40 1 2
@@ -57,7 +57,7 @@
 3 Displacement 70 3 20
 3 Displacement 80 3 20
 3 Displacement 90 3 20
-2 Displacement 100 3 20
+3 Displacement 100 3 20
 2 Living 10 1 10
 2 Living 20 1 10
 2 Living 30 1 10

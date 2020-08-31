@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
 import statistics
 import itertools
 import numpy as np
@@ -19,25 +20,23 @@ def retrieveIterationTimes():
     tf = open(TIME_FILE, "r")
     times = {}
     for line in tf:
-    	data = line.rstrip("\n").split(" ")
+        data = line.rstrip("\n").split(" ")
 
+        # Retrieving the parameters
+        dimension = int(data[0])
+        stat_type = data[1]
+        percent = float(data[2])
+        rule = int(data[3])
+        time = int(data[4])
 
-    	# Retrieving the parameters
-    	dimension = int(data[0])
-    	stat_type = data[1]
-    	percent = float(data[2])
-    	rule = int(data[3])
-    	time = int(data[4])
-
-    	if not dimension in times:
-    	    times[dimension] = {}
-    	if not stat_type in times[dimension]:
-    	    times[dimension][stat_type] = {}
-    	if not rule in times[dimension][stat_type]:
+        if not dimension in times:
+            times[dimension] = {}
+        if not stat_type in times[dimension]:
+            times[dimension][stat_type] = {}
+        if not rule in times[dimension][stat_type]:
             times[dimension][stat_type][rule] = {}
 
         times[dimension][stat_type][rule][percent] = time
-
     return times
 
 # Calculates the slope of the regression
@@ -60,6 +59,8 @@ def calculateRegressionSlope(data, n):
     top = n * s_xy - s_x * s_y
     bottom = n * s_xx - (s_x ** 2)
 
+    if bottom == 0:
+        return 0
     return top / bottom
 
 # Extracts the statistics based on the output files
@@ -67,7 +68,7 @@ def extractStats(times):
     stats = {}
 
     lf = open(LIVING_FILE, "r")
-    for line in tf:
+    for line in lf:
         data = line.rstrip("\n").split(" ")
 
         # Retrieving the parameters
@@ -84,8 +85,10 @@ def extractStats(times):
         if not percent in stats[dimension][LIVING][rule]:
             stats[dimension][LIVING][rule][percent] = []
 
+        casted_data = [float(x) for x in data[3:]]
+
         time = times[dimension][LIVING][rule][percent]
-        velocity = calculateRegressionSlope(data[3:], time)
+        velocity = calculateRegressionSlope(casted_data, time)
 
         stats[dimension][LIVING][rule][percent].append(velocity)
 
@@ -107,8 +110,10 @@ def extractStats(times):
         if not percent in stats[dimension][DISPLACEMENT][rule]:
             stats[dimension][DISPLACEMENT][rule][percent] = []
 
+        casted_data = [float(x) for x in data[3:]]
+
         time = times[dimension][DISPLACEMENT][rule][percent]
-        velocity = calculateRegressionSlope(data[3:], time)
+        velocity = calculateRegressionSlope(casted_data, time)
 
         stats[dimension][DISPLACEMENT][rule][percent].append(velocity)
 
@@ -179,7 +184,7 @@ for dim in stats:
             #Retrieving the data for the given dimension, stat_type and rule
             percentages, velocities, stds = organizeDataForRule(stats[dim][stat_type][rule])
 
-            label = 'Rule ' + rule
+            label = 'Rule ' + str(rule)
             plt.plot(percentages, velocities, label=label)
 
             plt.errorbar(percentages, velocities, yerr=stds, fmt='o', color='black',
@@ -188,6 +193,9 @@ for dim in stats:
         #Labelling the lines
         #plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05), shadow=True, ncol=3)
         plt.legend(bbox_to_anchor=(1,0.5), loc="center right", bbox_transform=plt.gcf().transFigure, fontsize=8, ncol=1)
-        save_file = 'images/Dim' + dim + stat_type + 'stats.png'
+        plt.gca().get_xaxis().set_minor_locator(MultipleLocator(10))
+        plt.gca().get_yaxis().set_minor_locator(MultipleLocator(1))
+        plt.xlim(0, 110)
+        save_file = 'images/Dim' + str(dim) + str(stat_type) + 'stats.png'
         plt.savefig(save_file)
 
